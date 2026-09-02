@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#fffaf0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>Automatismes STI2D</title>
+    <link rel="stylesheet" href="styles.css?v=1">
+  </head>
+  <body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">A</span><span><small>Première STI2D</small><strong>Automatismes</strong></span></div>
+      <div class="privacy"><span></span>Support de classe indépendant</div>
+    </header>
+
+    <main class="shell">
+      <section id="setup-screen" class="screen setup-screen">
+        <div class="hero">
+          <p class="eyebrow">Rituel de classe</p>
+          <h1>Les automatismes, visibles par toute la classe.</h1>
+          <p>Prépare une courte série, projette les questions une par une, puis laisse les élèves se corriger et compter leurs points.</p>
+          <div class="quick-launch">
+            <button id="quick-start" class="quick-button" type="button"><span>Démarrer maintenant</span><strong>6 questions · 30 secondes · réponses sur fiche</strong></button>
+            <small>Environ 3 minutes de questions, puis correction collective.</small>
+          </div>
+        </div>
+
+        <div class="setup-grid">
+          <section class="panel configuration-panel">
+            <div class="panel-title"><span>01</span><div><h2>Composition</h2><p>Choisis un ensemble prêt à l’emploi ou personnalise les notions.</p></div></div>
+            <div id="preset-list" class="preset-list" role="radiogroup" aria-label="Type de série">
+              <button type="button" class="preset active" data-preset="mixed" role="radio" aria-checked="true"><strong>Mélange général</strong><span>Automatismes variés de première</span></button>
+              <button type="button" class="preset" data-preset="calculation" role="radio" aria-checked="false"><strong>Calcul express</strong><span>Nombres, proportions, évolutions et unités</span></button>
+              <button type="button" class="preset" data-preset="algebra" role="radio" aria-checked="false"><strong>Algèbre et fonctions</strong><span>Expressions, équations, fonctions et dérivation</span></button>
+              <button type="button" class="preset" data-preset="data" role="radio" aria-checked="false"><strong>Données et hasard</strong><span>Statistiques et probabilités</span></button>
+              <button type="button" class="preset" data-preset="custom" role="radio" aria-checked="false"><strong>Sélection personnelle</strong><span>Coche librement les notions souhaitées</span></button>
+            </div>
+            <div id="skill-picker" class="skill-picker" hidden>
+              <div class="skill-picker-head"><strong>Notions disponibles</strong><button id="toggle-all-skills" type="button">Tout sélectionner</button></div>
+              <div id="skill-list" class="skill-list"></div>
+            </div>
+          </section>
+
+          <aside class="panel settings-panel">
+            <div class="panel-title"><span>02</span><div><h2>Déroulement</h2><p>Les réglages peuvent être modifiés avant chaque série.</p></div></div>
+            <label class="field"><span>Nombre de questions</span><select id="question-count"><option>4</option><option selected>6</option><option>8</option><option>10</option><option>12</option></select></label>
+            <label class="field"><span>Temps par question</span><select id="question-duration"><option value="15">15 secondes</option><option value="20">20 secondes</option><option value="30" selected>30 secondes</option><option value="45">45 secondes</option><option value="60">1 minute</option><option value="0">Sans chronomètre</option></select></label>
+            <fieldset class="mode-field">
+              <legend>Mode de réponse</legend>
+              <label><input type="radio" name="answer-mode" value="projection" checked><span><b>Question seule</b><small>Pour vidéoprojection et réponse sur fiche</small></span></label>
+              <label><input type="radio" name="answer-mode" value="qcm"><span><b>QCM</b><small>Quatre réponses proposées</small></span></label>
+              <label><input type="radio" name="answer-mode" value="free"><span><b>Réponse libre</b><small>Une zone de saisie, sans indice</small></span></label>
+            </fieldset>
+            <div class="setup-actions">
+              <button id="start-series" class="primary-button" type="button">Lancer la série</button>
+              <button id="copy-series-link" class="secondary-button" type="button">Copier un lien vers cette série</button>
+              <a class="sheet-button" href="fiche.html" target="_blank" rel="noopener">Imprimer la fiche élève</a>
+            </div>
+            <p class="private-note">Ce dossier est séparé de NEXUS et aucun lien n’est ajouté au jeu.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="series-screen" class="screen series-screen" hidden>
+        <div class="series-head">
+          <div><p class="eyebrow">Automatismes du jour</p><strong id="series-progress">Question 1 sur 6</strong></div>
+          <div class="progress-line"><span id="progress-bar"></span></div>
+          <button id="pause-series" class="ghost-button" type="button">Pause</button>
+        </div>
+        <article class="question-panel">
+          <div class="question-topline">
+            <span id="question-skill">Calcul numérique</span>
+            <div id="timer" class="timer"><strong id="timer-value">30</strong><small>s</small></div>
+          </div>
+          <div id="question-visual" class="question-visual" hidden></div>
+          <h2 id="question-text"></h2>
+          <div id="answer-zone" class="answer-zone"></div>
+          <div class="question-actions">
+            <button id="quit-series" class="text-button" type="button">Quitter la série</button>
+            <button id="next-question" class="primary-button" type="button">Valider et continuer</button>
+          </div>
+        </article>
+      </section>
+
+      <section id="review-screen" class="screen review-screen" hidden>
+        <div class="review-hero">
+          <div><p class="eyebrow">Correction de la série</p><h1 id="review-title">Reprenons les six questions.</h1><p id="review-summary"></p></div>
+          <div id="score-card" class="score-card"><strong id="score-value">0/6</strong><span>réponses justes</span></div>
+        </div>
+        <div id="review-list" class="review-list"></div>
+        <nav class="review-nav" aria-label="Navigation dans la correction">
+          <button id="previous-correction" class="secondary-button" type="button">← Correction précédente</button>
+          <strong id="review-progress">Correction 1 sur 6</strong>
+          <button id="next-correction" class="primary-button" type="button">Correction suivante →</button>
+        </nav>
+        <div class="review-actions">
+          <button id="restart-series" class="secondary-button" type="button">Rejouer la même série</button>
+          <button id="new-series" class="primary-button" type="button">Préparer une autre série</button>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="pause-dialog">
+      <div class="dialog-card"><p class="eyebrow">Chronomètre arrêté</p><h2>Série en pause</h2><p>La question reste visible. Le temps reprendra à ton signal.</p><button id="resume-series" class="primary-button" type="button">Reprendre</button></div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="question-engine.js?v=30"></script>
+    <script src="app.js?v=1"></script>
+  </body>
+</html>
