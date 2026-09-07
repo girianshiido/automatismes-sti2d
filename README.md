@@ -2,6 +2,8 @@
 
 Exerciseur autonome construit à partir du générateur de questions de NEXUS 1re.
 
+Le moteur embarqué a été resynchronisé avec la version auditée de NEXUS le 7 septembre 2026. L'interface de projection reste volontairement indépendante.
+
 - Aucun fichier du jeu NEXUS n'est appelé ou modifié.
 - Aucun lien vers cet exerciseur n'est ajouté dans NEXUS.
 - La page demande aux moteurs de recherche de ne pas l'indexer.
