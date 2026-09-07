@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#fffaf0">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Automatismes STI2D</title>
-    <link rel="stylesheet" href="styles.css?v=1">
+    <link rel="stylesheet" href="styles.css?v=2">
   </head>
   <body>
     <div class="ambient ambient-a"></div>
@@ -51,9 +51,8 @@
             <label class="field"><span>Temps par question</span><select id="question-duration"><option value="15">15 secondes</option><option value="20">20 secondes</option><option value="30" selected>30 secondes</option><option value="45">45 secondes</option><option value="60">1 minute</option><option value="0">Sans chronomètre</option></select></label>
             <fieldset class="mode-field">
               <legend>Mode de réponse</legend>
-              <label><input type="radio" name="answer-mode" value="projection" checked><span><b>Question seule</b><small>Pour vidéoprojection et réponse sur fiche</small></span></label>
-              <label><input type="radio" name="answer-mode" value="qcm"><span><b>QCM</b><small>Quatre réponses proposées</small></span></label>
-              <label><input type="radio" name="answer-mode" value="free"><span><b>Réponse libre</b><small>Une zone de saisie, sans indice</small></span></label>
+              <label><input type="radio" name="answer-mode" value="projection" checked><span><b>QCM projeté</b><small>Les élèves recopient uniquement A, B, C ou D</small></span></label>
+              <label><input type="radio" name="answer-mode" value="qcm"><span><b>QCM individuel</b><small>Les élèves cliquent eux-mêmes sur leur réponse</small></span></label>
             </fieldset>
             <div class="setup-actions">
               <button id="start-series" class="primary-button" type="button">Lancer la série</button>
@@ -92,11 +91,17 @@
           <div id="score-card" class="score-card"><strong id="score-value">0/6</strong><span>réponses justes</span></div>
         </div>
         <div id="review-list" class="review-list"></div>
-        <nav class="review-nav" aria-label="Navigation dans la correction">
+        <nav id="review-nav" class="review-nav" aria-label="Navigation dans la correction">
           <button id="previous-correction" class="secondary-button" type="button">← Correction précédente</button>
           <strong id="review-progress">Correction 1 sur 6</strong>
           <button id="next-correction" class="primary-button" type="button">Correction suivante →</button>
         </nav>
+        <section id="projection-summary" class="projection-summary" aria-labelledby="projection-summary-title" hidden>
+          <p class="eyebrow">Résumé à projeter</p>
+          <h2 id="projection-summary-title">Toutes les réponses</h2>
+          <div id="projection-summary-list" class="projection-summary-list"></div>
+          <button id="back-to-corrections" class="secondary-button" type="button">← Revoir la dernière correction</button>
+        </section>
         <div class="review-actions">
           <button id="restart-series" class="secondary-button" type="button">Rejouer la même série</button>
           <button id="new-series" class="primary-button" type="button">Préparer une autre série</button>
@@ -110,6 +115,6 @@
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script src="question-engine.js?v=31"></script>
-    <script src="app.js?v=1"></script>
+    <script src="app.js?v=2"></script>
   </body>
 </html>

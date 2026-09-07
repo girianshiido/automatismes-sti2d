@@ -4,6 +4,15 @@ Exerciseur autonome construit à partir du générateur de questions de NEXUS 1r
 
 Le moteur embarqué a été resynchronisé avec la version auditée de NEXUS le 7 septembre 2026. L'interface de projection reste volontairement indépendante.
 
+L'exerciseur propose uniquement deux modes :
+
+- **QCM projeté** (par défaut) : les quatre choix A, B, C et D sont visibles mais non cliquables ; les élèves reportent une lettre sur leur fiche.
+- **QCM individuel** : les mêmes choix sont cliquables et le score est calculé automatiquement.
+
+Pendant la correction, la bonne lettre est encerclée et accompagnée du résultat. Le mode projeté se termine par un résumé des lettres correctes.
+
+Le rendu mathématique de NEXUS est également repris : fractions empilées, indices et exposants alignés, racines, vecteurs et graphiques gradués. Les couleurs sont adaptées au fond clair de l'exerciseur.
+
 - Aucun fichier du jeu NEXUS n'est appelé ou modifié.
 - Aucun lien vers cet exerciseur n'est ajouté dans NEXUS.
 - La page demande aux moteurs de recherche de ne pas l'indexer.
