@@ -443,7 +443,7 @@
       variant = {
         statement: `Si x > ${high}, alors x > ${low}`,
         reciprocal: `Si x > ${low}, alors x > ${high}`,
-        contrapositive: `Si x ≤ ${low}, alors x ≤ ${high}`,
+        contrapositive: `Si x ⩽ ${low}, alors x ⩽ ${high}`,
         other: `Si x < ${high}, alors x < ${low}`
       };
     } else {
@@ -475,7 +475,7 @@
     if (family === 0) {
       const coefficient = randInt(2, 8, rng);
       variant = {
-        statement: `Pour tout entier n ≥ 1, n² > ${coefficient === 1 ? "n" : `${coefficient}n`}.`,
+        statement: `Pour tout entier n ⩾ 1, n² > ${coefficient === 1 ? "n" : `${coefficient}n`}.`,
         good: `n = ${coefficient}`,
         wrong: [coefficient + 1, coefficient + 2, coefficient + 3].map(value => `n = ${value}`),
         explanation: `Pour n = ${coefficient}, on a n² = ${coefficient ** 2} et ${coefficient === 1 ? "n" : `${coefficient}n`} = ${coefficient ** 2} : l'inégalité stricte est fausse.`
@@ -851,7 +851,7 @@
     const good = `x ${greater ? ">" : "<"} ${root}`;
     const { choices, answer } = makeChoices(good, [
       `x ${greater ? "<" : ">"} ${root}`,
-      `x ${greater ? "≥" : "≤"} ${root}`,
+      `x ${greater ? "⩾" : "⩽"} ${root}`,
       `x ${greater ? ">" : "<"} ${-root}`
     ], rng);
     return {
@@ -974,7 +974,7 @@
     const good = `x ${greater ? ">" : "<"} ${root}`;
     const { choices, answer } = makeChoices(good, [
       `x ${greater ? "<" : ">"} ${root}`,
-      `x ${greater ? "≥" : "≤"} ${root}`,
+      `x ${greater ? "⩾" : "⩽"} ${root}`,
       `x ${greater ? ">" : "<"} ${-root}`
     ], rng);
     return {
@@ -992,15 +992,15 @@
     const secondRoot = randInt(1, 4, rng);
     // Avec a = ±1, le sommet reste dans la fenêtre [-8 ; 12] du graphique.
     const coefficient = pick([-1, 1], rng);
-    const relation = pick([">", "≥", "<", "≤", "="], rng);
+    const relation = pick([">", "⩾", "<", "⩽", "="], rng);
     const opensUp = coefficient > 0;
-    const outside = relation === ">" ? opensUp : relation === "≥" ? opensUp : relation === "<" ? !opensUp : relation === "≤" ? !opensUp : false;
-    const inclusive = relation === "≥" || relation === "≤";
+    const outside = relation === ">" ? opensUp : relation === "⩾" ? opensUp : relation === "<" ? !opensUp : relation === "⩽" ? !opensUp : false;
+    const inclusive = relation === "⩾" || relation === "⩽";
     const good = relation === "="
       ? `x = ${firstRoot} ou x = ${secondRoot}`
       : outside
-        ? `x ${inclusive ? "≤" : "<"} ${firstRoot} ou x ${inclusive ? "≥" : ">"} ${secondRoot}`
-        : `${firstRoot} ${inclusive ? "≤" : "<"} x ${inclusive ? "≤" : "<"} ${secondRoot}`;
+        ? `x ${inclusive ? "⩽" : "<"} ${firstRoot} ou x ${inclusive ? "⩾" : ">"} ${secondRoot}`
+        : `${firstRoot} ${inclusive ? "⩽" : "<"} x ${inclusive ? "⩽" : "<"} ${secondRoot}`;
     const { choices, answer } = makeChoices(good, [
       `x < ${firstRoot} ou x > ${secondRoot}`,
       `${firstRoot} < x < ${secondRoot}`,
@@ -1550,7 +1550,7 @@
     const mode = randInt(0, 2, rng);
     const selectedIndices = mode === 0 ? [0, 1] : mode === 1 ? [1, 2] : [1];
     const good = selectedIndices.reduce((sum, index) => sum + probabilities[index], 0);
-    const event = mode === 0 ? `X ≤ ${values[1]}` : mode === 1 ? `X ≥ ${values[1]}` : `X = ${values[1]}`;
+    const event = mode === 0 ? `X ⩽ ${values[1]}` : mode === 1 ? `X ⩾ ${values[1]}` : `X = ${values[1]}`;
     const { choices, answer } = makeChoices(formatNumber(good, 2), [
       formatNumber(p0, 2),
       formatNumber(p1, 2),
