@@ -19,13 +19,13 @@ h1 { margin: 0; font-size: 19pt; line-height: 1; }
 .session-head span { justify-self: end; font-size: 6.3pt; }
 .session-head b { grid-column: 1 / -1; font-size: 7.5pt; }
 table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-th, td { height: 6mm; border-right: 1.25px solid #111; border-bottom: 1.25px solid #111; }
+th, td { height: 4.5mm; border-right: 1.25px solid #111; border-bottom: 1.25px solid #111; }
 thead th { height: 5.5mm; padding: .6mm; background: #f1eee7; font-size: 6.2pt; white-space: nowrap; }
 thead th:first-child, tbody th { width: 17%; }
 thead th:nth-child(2) { width: 19%; }
 thead th:nth-child(3) { width: 49%; }
 thead th:last-child, .point { width: 15%; border-right: 0; }
-tbody th { font-size: 7.5pt; }
+tbody th { font-size: 7pt; }
 tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
 .point { font-size: 10pt; text-align: center; }
 footer { display: none; }
