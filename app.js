@@ -191,7 +191,7 @@
         input.value = subskill.id;
         input.dataset.skill = skill;
         input.checked = true;
-        label.append(input, document.createTextNode(subskill.label || subskill.id));
+        label.append(input, document.createTextNode(`${subskill.label || subskill.id} · ${subskill.id}`));
         group.append(label);
       });
       dom.skillList.append(group);
