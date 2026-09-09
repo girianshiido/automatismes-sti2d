@@ -49,6 +49,11 @@
       const subscript = [...fragment].every(character => SUBSCRIPT_CHARACTERS[character] !== undefined);
       const superscript = [...fragment].every(character => SUPERSCRIPT_CHARACTERS[character] !== undefined);
       if (!subscript && !superscript) return target.append(document.createTextNode(fragment));
+      // Safari peut couper entre le caractère de base et son exposant :
+      // on les relie explicitement par un espace insécable (visuellement nul).
+      if (superscript && target.lastChild?.nodeType === Node.TEXT_NODE && /[A-Za-z0-9)]$/.test(target.lastChild.textContent)) {
+        target.lastChild.textContent += "\u00a0";
+      }
       const modifier = document.createElement("span");
       modifier.className = subscript ? "math-sub" : "math-sup";
       modifier.textContent = [...fragment].map(character => (subscript ? SUBSCRIPT_CHARACTERS : SUPERSCRIPT_CHARACTERS)[character]).join("");
