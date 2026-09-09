@@ -1491,9 +1491,9 @@
     return {
       kind: "total-probability",
       skill: "probability",
-      prompt: `P(A) = ${formatNumber(pA)}, P(B|A) = ${formatNumber(pGivenA)} et P(B|Ā) = ${formatNumber(pGivenNotA)}. Calculer P(B).`,
+      prompt: `P(A) = ${formatNumber(pA)}, Pₐ(B) = ${formatNumber(pGivenA)} et Pₐ̄(B) = ${formatNumber(pGivenNotA)}. Calculer P(B).`,
       choices, answer,
-      explanation: `P(B) = P(A)P(B|A) + P(Ā)P(B|Ā) = ${formatNumber(pA)} × ${formatNumber(pGivenA)} + ${formatNumber(1 - pA)} × ${formatNumber(pGivenNotA)} = ${formatNumber(good, 2)}.`
+      explanation: `P(B) = P(A)Pₐ(B) + P(Ā)Pₐ̄(B) = ${formatNumber(pA)} × ${formatNumber(pGivenA)} + ${formatNumber(1 - pA)} × ${formatNumber(pGivenNotA)} = ${formatNumber(good, 2)}.`
     };
   }
 
