@@ -34,6 +34,8 @@ assert.match(html, /id="projection-summary"/, "l'écran de résumé projeté doi
 assert.match(app, /Question \$\{index \+ 1\}.*ANSWER_LETTERS\[question\.answer\]/s, "le résumé doit associer chaque question à sa lettre correcte");
 assert.match(app, /total sur \$\{questions\.length\}/, "le total doit utiliser le nombre réel de questions");
 assert.match(app, /function renderMathText/, "le rendu mathématique doit être embarqué");
+assert.match(app, /function renderPromptText/, "les données et la question doivent pouvoir être séparées automatiquement");
+assert.equal((app.match(/renderPromptText\([^,]+, question\.prompt\)/g) || []).length, 2, "le saut avant la question doit fonctionner pendant la série et la correction");
 assert.match(app, /math-inline-fraction/, "les fractions doivent bénéficier du rendu mathématique amélioré");
 assert.match(app, /math-set-operator/, "les opérateurs d'ensembles doivent bénéficier d'un rendu mathématique lisible");
 assert.match(app, /\[A-Z\]\\s\*\=\\s\*\\\{\[\^\{\}\]\+\\\}/, "chaque nom d'ensemble doit rester attaché à son contenu");

@@ -171,6 +171,14 @@
     target.replaceChildren(fragment);
   }
 
+  function renderPromptText(target, text) {
+    const separatedPrompt = String(text).replace(
+      /([.!?])\s+(?=(?:Quel(?:le)?s?|Combien|Calculer|Déterminer|Donner|Avec un pas)\b)/g,
+      "$1\n"
+    );
+    renderMathText(target, separatedPrompt);
+  }
+
   function hashSeed(value) {
     let hash = 1779033703 ^ String(value).length;
     for (let index = 0; index < String(value).length; index += 1) {
@@ -336,7 +344,7 @@
     dom.seriesProgress.textContent = `Question ${currentIndex + 1} sur ${questions.length}`;
     dom.progressBar.style.width = `${currentIndex / questions.length * 100}%`;
     dom.questionSkill.textContent = Engine.SKILLS[question.skill];
-    renderMathText(dom.questionText, question.prompt);
+    renderPromptText(dom.questionText, question.prompt);
     dom.visual.innerHTML = question.visual || "";
     dom.visual.hidden = !question.visual;
     renderQuestionCanvases();
@@ -464,7 +472,7 @@
         ? `<span class="student">Ta réponse est <span class="review-answer-letter">${ANSWER_LETTERS[answer.value]}</span> : <span class="student-answer-text"></span></span>`
         : `<span class="student">Ta réponse : aucune</span>`;
       article.innerHTML = `<div class="review-item-head"><span>Question ${index + 1} · ${escapeHTML(Engine.SKILLS[question.skill])}</span><strong class="review-status">${status}</strong></div>${question.visual ? `<div class="review-visual">${question.visual}</div>` : ""}<div class="review-question"></div><div class="review-answer">${studentMarkup}<strong>La bonne réponse est <span class="review-answer-letter correct">${correctLetter}</span> : <span class="review-correct-text"></span></strong></div><p class="review-explanation"></p>`;
-      renderMathText(article.querySelector(".review-question"), question.prompt);
+      renderPromptText(article.querySelector(".review-question"), question.prompt);
       renderMathText(article.querySelector(".review-correct-text"), correctChoice);
       renderMathText(article.querySelector(".review-explanation"), question.explanation);
       if (mode === "qcm" && Number.isInteger(answer.value)) renderMathText(article.querySelector(".student-answer-text"), question.choices[answer.value]);
