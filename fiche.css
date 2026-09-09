@@ -34,6 +34,7 @@ footer div { height: 7mm; border-bottom: 1.5px solid #111; }
   body { background: white; }
   .page { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
   .print-button { display: none; }
+  .long-sheet .session:nth-child(5) { break-before: page; }
 }
 @media screen and (max-width: 850px) {
   .page { width: calc(100% - 20px); height: auto; min-height: 0; padding: 18px; }
