@@ -173,7 +173,7 @@ dialog::backdrop { background: rgba(1,8,13,.78); backdrop-filter: blur(7px); }
 .toast.show { opacity: 1; transform: translateY(0); }
 .math-inline { display: inline-block; white-space: nowrap; }
 .math-inline-fraction { display: inline-flex; align-items: center; vertical-align: baseline; }
-.math-sub, .math-sup { font-family: inherit; font-size: .65em; line-height: 0; }
+.math-sub, .math-sup { font-family: inherit; font-size: .65em; line-height: 0; letter-spacing: -.08em; }
 .math-sub { vertical-align: -.34em; }
 .math-sup { vertical-align: .52em; }
 .math-vector { position: relative; display: inline-block; min-width: .72em; padding-top: .32em; vertical-align: -.04em; font-style: italic; line-height: 1; text-align: center; }
