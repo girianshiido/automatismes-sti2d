@@ -41,7 +41,9 @@
   const ANSWER_LETTERS = ["A", "B", "C", "D"];
 
   function appendMathCharacters(target, text) {
-    String(text).replace(/(^|[\s=(;,])-(?=[0-9xyzuiρπ])/gi, "$1−")
+    String(text)
+      .replace(/(^|[\s=(;,])-(?=[0-9xyzuiρπ])/gi, "$1−")
+      .replace(/(?<=[0-9A-Za-z)])\s+([=+−×÷<>≤≥])\s+(?=[0-9A-Za-z(])/g, "\u00a0$1\u00a0")
       .split(/([₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+|[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)/g).forEach(fragment => {
       if (!fragment) return;
       const subscript = [...fragment].every(character => SUBSCRIPT_CHARACTERS[character] !== undefined);
@@ -176,14 +178,23 @@
   function optionSkills() {
     dom.skillList.replaceChildren();
     CORE_SKILLS.forEach(skill => {
-      const label = document.createElement("label");
-      label.className = "skill-option";
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.value = skill;
-      input.checked = true;
-      label.append(input, document.createTextNode(Engine.SKILLS[skill]));
-      dom.skillList.append(label);
+      const group = document.createElement("section");
+      group.className = "skill-group";
+      const title = document.createElement("strong");
+      title.textContent = Engine.SKILLS[skill];
+      group.append(title);
+      Engine.SUBSKILLS.filter(subskill => subskill.skill === skill).forEach(subskill => {
+        const label = document.createElement("label");
+        label.className = "skill-option";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = subskill.id;
+        input.dataset.skill = skill;
+        input.checked = true;
+        label.append(input, document.createTextNode(subskill.label || subskill.id));
+        group.append(label);
+      });
+      dom.skillList.append(group);
     });
   }
 
@@ -199,6 +210,11 @@
 
   function selectedSkills() {
     if (selectedPreset !== "custom") return PRESETS[selectedPreset] || CORE_SKILLS;
+    return [...new Set([...dom.skillList.querySelectorAll("input:checked")].map(input => input.dataset.skill))];
+  }
+
+  function selectedKinds() {
+    if (selectedPreset !== "custom") return Engine.SUBSKILLS.filter(subskill => selectedSkills().includes(subskill.skill)).map(subskill => subskill.id);
     return [...dom.skillList.querySelectorAll("input:checked")].map(input => input.value);
   }
 
@@ -207,12 +223,12 @@
   }
 
   function settings() {
-    return { count: Number(dom.count.value), duration: Number(dom.duration.value), mode: answerMode(), skills: selectedSkills() };
+    return { count: Number(dom.count.value), duration: Number(dom.duration.value), mode: answerMode(), skills: selectedSkills(), kinds: selectedKinds() };
   }
 
   function makeQuestions(config, nextSeed) {
     const rng = seededRandom(nextSeed);
-    const kinds = Engine.SUBSKILLS.filter(subskill => config.skills.includes(subskill.skill)).map(subskill => subskill.id);
+    const kinds = config.kinds?.length ? config.kinds : Engine.SUBSKILLS.filter(subskill => config.skills.includes(subskill.skill)).map(subskill => subskill.id);
     if (!kinds.length) throw new Error("Choisis au moins une notion.");
     const generated = [];
     const fingerprints = [];
@@ -249,6 +265,7 @@
     url.searchParams.set("t", String(config.duration));
     url.searchParams.set("mode", config.mode);
     url.searchParams.set("skills", config.skills.join(","));
+    if (selectedPreset === "custom") url.searchParams.set("kinds", config.kinds.join(","));
     return url;
   }
 
@@ -476,6 +493,26 @@
   }
 
   function renderQuestionCanvases(root = dom.visual) {
+    root.querySelectorAll("canvas[data-plot='quadratic']").forEach(canvas => {
+      const width = Math.max(260, Math.min(780, Math.round(canvas.getBoundingClientRect().width || 620)));
+      const height = Math.round(Math.max(210, width * 0.48));
+      const ratio = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = width * ratio; canvas.height = height * ratio; canvas.style.height = `${height}px`;
+      const context = canvas.getContext("2d"); context.scale(ratio, ratio);
+      const margin = 28, xMin = -6, xMax = 6, yMin = -8, yMax = 12;
+      const px = x => margin + (x - xMin) / (xMax - xMin) * (width - margin * 2);
+      const py = y => height - margin - (y - yMin) / (yMax - yMin) * (height - margin * 2);
+      const a = Number(canvas.dataset.coefficient), left = Number(canvas.dataset.rootLeft), right = Number(canvas.dataset.rootRight);
+      const curve = x => a * (x - left) * (x - right);
+      context.clearRect(0, 0, width, height); context.fillStyle = "#fff"; context.fillRect(0, 0, width, height);
+      context.lineWidth = 1; context.font = "11px system-ui, sans-serif"; context.textAlign = "center"; context.textBaseline = "top";
+      for (let x = xMin; x <= xMax; x += 1) { context.strokeStyle = x === 0 ? "#171717" : "#d8d8d8"; context.beginPath(); context.moveTo(px(x), margin); context.lineTo(px(x), height - margin); context.stroke(); if (x !== 0) { context.fillStyle = "#444"; context.fillText(x < 0 ? `−${Math.abs(x)}` : String(x), px(x), py(0) + 5); } }
+      context.textAlign = "right"; context.textBaseline = "middle";
+      for (let y = yMin; y <= yMax; y += 2) { context.strokeStyle = y === 0 ? "#171717" : "#d8d8d8"; context.beginPath(); context.moveTo(margin, py(y)); context.lineTo(width - margin, py(y)); context.stroke(); if (y !== 0) { context.fillStyle = "#444"; context.fillText(y < 0 ? `−${Math.abs(y)}` : String(y), px(0) - 5, py(y)); } }
+      context.save(); context.beginPath(); context.rect(margin, margin, width - margin * 2, height - margin * 2); context.clip(); context.strokeStyle = "#7257e8"; context.lineWidth = 4; context.beginPath();
+      for (let step = 0; step <= 240; step += 1) { const x = xMin + (xMax - xMin) * step / 240; if (step === 0) context.moveTo(px(x), py(curve(x))); else context.lineTo(px(x), py(curve(x))); } context.stroke(); context.restore();
+      context.fillStyle = "#dc3f67"; [left, right].forEach(rootValue => { context.beginPath(); context.arc(px(rootValue), py(0), 5, 0, Math.PI * 2); context.fill(); });
+    });
     root.querySelectorAll("canvas[data-plot='line']").forEach(canvas => {
       const width = Math.max(260, Math.min(780, Math.round(canvas.getBoundingClientRect().width || 620)));
       const height = Math.round(Math.max(210, width * 0.48));
@@ -538,7 +575,8 @@
   function loadURLSettings() {
     const params = new URL(window.location.href).searchParams;
     const sharedSkills = (params.get("skills") || "").split(",").filter(skill => CORE_SKILLS.includes(skill));
-    if (!params.has("seed") || !sharedSkills.length) return;
+    const sharedKinds = (params.get("kinds") || "").split(",").filter(kind => Engine.SUBSKILLS.some(subskill => subskill.id === kind));
+    if (!params.has("seed") || (!sharedSkills.length && !sharedKinds.length)) return;
     seed = params.get("seed");
     const count = params.get("n"), duration = params.get("t"), mode = params.get("mode");
     if ([...dom.count.options].some(option => option.value === count)) dom.count.value = count;
@@ -546,7 +584,7 @@
     const modeInput = document.querySelector(`input[name="answer-mode"][value="${mode}"]`);
     if (modeInput) modeInput.checked = true;
     selectPreset("custom");
-    dom.skillList.querySelectorAll("input").forEach(input => { input.checked = sharedSkills.includes(input.value); });
+    dom.skillList.querySelectorAll("input").forEach(input => { input.checked = sharedKinds.length ? sharedKinds.includes(input.value) : sharedSkills.includes(input.dataset.skill); });
     showToast("Série partagée chargée. Elle est prête à démarrer.");
   }
 

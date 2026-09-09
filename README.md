@@ -1,8 +1,6 @@
 # Automatismes STI2D
 
-Exerciseur autonome construit à partir du générateur de questions de NEXUS 1re.
-
-Le moteur embarqué a été resynchronisé avec la version auditée de NEXUS le 7 septembre 2026. L'interface de projection reste volontairement indépendante.
+Exerciseur autonome d’automatismes pour la première STI2D.
 
 L'exerciseur propose uniquement deux modes :
 
@@ -11,10 +9,9 @@ L'exerciseur propose uniquement deux modes :
 
 Pendant la correction, la bonne lettre est encerclée et accompagnée du résultat. Le mode projeté se termine par un résumé des lettres correctes.
 
-Le rendu mathématique de NEXUS est également repris : fractions empilées, indices et exposants alignés, racines, vecteurs et graphiques gradués. Les couleurs sont adaptées au fond clair de l'exerciseur.
+Le rendu mathématique propose des fractions empilées, indices et exposants alignés, racines, vecteurs et graphiques gradués. Les couleurs sont adaptées au fond clair de l'exerciseur.
 
-- Aucun fichier du jeu NEXUS n'est appelé ou modifié.
-- Aucun lien vers cet exerciseur n'est ajouté dans NEXUS.
+- Le projet est autonome et ne dépend d’aucune autre application.
 - La page demande aux moteurs de recherche de ne pas l'indexer.
 - Le projet n'est pas publié automatiquement.
 

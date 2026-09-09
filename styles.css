@@ -61,6 +61,9 @@ button { color: inherit; }
 .skill-picker-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 10px; font-size: 11px; }
 .skill-picker-head button { padding: 0; border: 0; color: var(--cyan); background: transparent; font-size: 9px; text-decoration: underline; }
 .skill-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+.skill-group { display: grid; gap: 6px; grid-column: 1 / -1; }
+.skill-group > strong { padding: 5px 2px 1px; color: var(--violet); font-size: 11px; }
+.skill-group .skill-option { margin-left: 10px; }
 .skill-option { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); background: rgba(4,20,29,.45); font-size: 10px; }
 .skill-option:has(input:checked) { color: var(--text); border-color: rgba(102,228,231,.36); }
 .skill-option input { accent-color: var(--cyan); }

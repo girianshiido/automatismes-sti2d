@@ -516,9 +516,10 @@
 
   function proportionValue(rng) {
     const item = pick([
-      { singular: "panneau", plural: "panneaux", unit: "W" },
-      { singular: "capteur", plural: "capteurs", unit: "mesures" },
-      { singular: "module", plural: "modules", unit: "composants" }
+      { singular: "usine", plural: "usines", unit: "modèles", verb: "fabrique" },
+      { singular: "chaîne d'assemblage", plural: "chaînes d'assemblage", unit: "boîtiers", verb: "assemble" },
+      { singular: "atelier", plural: "ateliers", unit: "pièces", verb: "produit" },
+      { singular: "capteur", plural: "capteurs", unit: "mesures", verb: "enregistre" }
     ], rng);
     const baseCount = randInt(2, 6, rng);
     const perItem = randInt(3, 15, rng);
@@ -534,7 +535,7 @@
     return {
       kind: "direct-proportion",
       skill: "proportions",
-      prompt: `${baseCount} ${baseCount > 1 ? item.plural : item.singular} fournissent ${baseValue} ${item.unit}. Combien en fournissent ${targetCount} ${item.plural} dans la même situation ?`,
+      prompt: `${baseCount} ${baseCount > 1 ? item.plural : item.singular} ${item.verb}${baseCount > 1 ? "ent" : ""} ${baseValue} ${item.unit}. Combien en ${item.verb}${targetCount > 1 ? "ent" : ""} ${targetCount} ${item.plural} dans la même situation ?`,
       choices: choices.map(value => `${value} ${item.unit}`), answer,
       explanation: `Une unité fournit ${baseValue} ÷ ${baseCount} = ${perItem} ${item.unit}. Donc ${targetCount} unités fournissent ${targetCount} × ${perItem} = ${targetValue} ${item.unit}.`
     };
@@ -554,7 +555,7 @@
     return {
       kind: "ratio-comparison",
       skill: "proportions",
-      prompt: `Une ligne produit ${larger} pièces et une autre ${smaller}. Quel est le rapport ${askLargerFirst ? `${larger}/${smaller}` : `${smaller}/${larger}`} ?`,
+      prompt: `Une ligne de production fabrique ${larger} pièces et une cellule robotisée en fabrique ${smaller}. Quel est le rapport ${askLargerFirst ? `${larger}/${smaller}` : `${smaller}/${larger}`} des deux cadences ?`,
       choices, answer,
       explanation: `${askLargerFirst ? larger : smaller} ÷ ${askLargerFirst ? smaller : larger} = ${good}. Ce rapport compare les deux quantités de manière multiplicative.`
     };
@@ -982,6 +983,38 @@
       choices, answer,
       visual: `<canvas class="question-plot" data-plot="line" data-slope="${slope}" data-intercept="${intercept}" role="img" aria-label="Graphique d'une fonction affine dans un repère gradué"></canvas>`,
       explanation: `La courbe coupe l'axe des abscisses en ${root} et se trouve ${askPositive ? "au-dessus" : "au-dessous"} de cet axe pour ${good}.`
+    };
+  }
+
+  function quadraticSignReading(rng) {
+    const firstRoot = randInt(-4, -1, rng);
+    const secondRoot = randInt(1, 4, rng);
+    const coefficient = pick([1, 2], rng);
+    const relation = pick([">", "≥", "<", "≤", "="], rng);
+    const good = relation === ">"
+      ? `x < ${firstRoot} ou x > ${secondRoot}`
+      : relation === "≥"
+        ? `x ≤ ${firstRoot} ou x ≥ ${secondRoot}`
+        : relation === "<"
+          ? `${firstRoot} < x < ${secondRoot}`
+          : relation === "≤"
+            ? `${firstRoot} ≤ x ≤ ${secondRoot}`
+            : `x = ${firstRoot} ou x = ${secondRoot}`;
+    const { choices, answer } = makeChoices(good, [
+      `x < ${firstRoot} ou x > ${secondRoot}`,
+      `${firstRoot} < x < ${secondRoot}`,
+      `x > ${firstRoot}`,
+      `x < ${secondRoot}`,
+      `x = ${firstRoot} ou x = ${secondRoot}`
+    ], rng);
+    const position = relation === ">" || relation === "≥" ? "à l'extérieur" : relation === "=" ? "aux deux points d'intersection" : "entre les deux racines";
+    return {
+      kind: "quadratic-sign-reading",
+      skill: "functions",
+      prompt: `À l'aide de la parabole représentée, résoudre f(x) ${relation} 0.`,
+      choices, answer,
+      visual: `<canvas class="question-plot" data-plot="quadratic" data-coefficient="${coefficient}" data-root-left="${firstRoot}" data-root-right="${secondRoot}" role="img" aria-label="Parabole tournée vers le haut, avec deux intersections avec l'axe des abscisses"></canvas>`,
+      explanation: `La parabole est tournée vers le haut et coupe l'axe en ${firstRoot} et ${secondRoot}. Pour f(x) ${relation} 0, on retient ${position} (avec les racines incluses lorsque le signe est large). La solution est donc ${good}.`
     };
   }
 
@@ -2544,7 +2577,7 @@
     units: [metricConversion, durationConversion],
     logic: [setIntersection, logicalCondition, reciprocalStatement, counterexample],
     algebra: [zeroProduct, developExpression, factorExpression, linearSign, factorizedSign],
-    functions: [slopeFromPoints, functionImage, graphLineEquation, graphEquationReading, graphSign, quadraticVertex, quadraticRoots, variationTable],
+    functions: [slopeFromPoints, functionImage, graphLineEquation, graphEquationReading, graphSign, quadraticSignReading, quadraticVertex, quadraticRoots, variationTable],
     sequences: [nextSequence, explicitSequenceTerm, recurrentSequenceTerm, sequenceNature, sequenceVariation],
     derivatives: [derivativePolynomial, cubicDerivative, tangentEquation, derivativeVariation],
     statistics: [meanSeries, histogramReading, meanPoint, affineAdjustment],
@@ -2570,7 +2603,7 @@
         { label: "Évolutions successives et réciproques", skills: ["evolutions"], kinds: ["successive-rates", "reciprocal-rate"] },
         { label: "Développer, factoriser et réduire", skills: ["algebra"], kinds: ["develop-expression", "factor-expression"] },
         { label: "Produit nul et signes d'expressions", skills: ["algebra"], kinds: ["zero-product", "linear-sign", "factorized-sign"] },
-        { label: "Droites, équations, signes et variations graphiques", skills: ["functions"], kinds: ["graph-line-equation", "graph-equation-reading", "graph-sign-reading", "variation-reading"] },
+        { label: "Droites, paraboles, équations, signes et variations graphiques", skills: ["functions"], kinds: ["graph-line-equation", "graph-equation-reading", "graph-sign-reading", "quadratic-sign-reading", "variation-reading"] },
         { label: "Indicateurs et représentations statistiques", skills: ["statistics"], kinds: ["series-mean", "histogram-reading"] },
         { label: "Probabilités conditionnelles sur tableau", skills: ["probability"], kinds: ["conditional-table"] }
       ]
