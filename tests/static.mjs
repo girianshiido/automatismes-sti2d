@@ -37,6 +37,7 @@ assert.match(app, /function renderMathText/, "le rendu mathématique doit être 
 assert.match(app, /math-inline-fraction/, "les fractions doivent bénéficier du rendu mathématique amélioré");
 assert.match(app, /context\.fillText/, "les graphiques doivent afficher leurs graduations");
 assert.match(await readFile(new URL("../question-engine.js", import.meta.url), "utf8"), /quadratic-sign-reading/, "une lecture graphique parabolique doit être proposée");
+assert.match(app, /subskill\.label \|\| subskill\.id\} · \$\{subskill\.id\}/, "la sélection personnelle doit distinguer chaque format");
 assert.match(await readFile(new URL("../styles.css", import.meta.url), "utf8"), /\.math-radical-sign::before/, "les styles de rendu mathématique doivent être présents");
 assert.match(app, /quickStart/, "le rituel par défaut doit pouvoir démarrer en un clic");
 assert.match(engine, /14100|KIND_GENERATORS|SUBSKILLS/, "le catalogue complet doit être embarqué");
