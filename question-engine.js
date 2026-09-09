@@ -1807,7 +1807,7 @@
       const filterMode = randInt(0, 2, rng);
       if (filterMode === 0) {
         good = `=${firstColumn}${row}>=${threshold}`;
-        prompt = `On veut conserver les lignes dont la valeur en colonne ${firstColumn} est supérieure ou égale à ${threshold}. Quelle formule renvoie VRAI exactement pour les lignes à conserver ?`;
+        prompt = `Quelle formule, saisie sur la ligne ${row}, vérifie que la valeur de la cellule ${firstColumn}${row} est supérieure ou égale à ${threshold} ?`;
         explanation = `Le critère « supérieure ou égale à ${threshold} » s'écrit >= ${threshold} : ${good}.`;
         distractors = [
           `=${firstColumn}${row}>${threshold}`,
@@ -1816,7 +1816,7 @@
         ];
       } else if (filterMode === 1) {
         good = `=${firstColumn}${row}<${threshold}`;
-        prompt = `On veut conserver les lignes dont la valeur en colonne ${firstColumn} est strictement inférieure à ${threshold}. Quelle formule renvoie VRAI exactement pour les lignes à conserver ?`;
+        prompt = `Quelle formule, saisie sur la ligne ${row}, vérifie que la valeur de la cellule ${firstColumn}${row} est strictement inférieure à ${threshold} ?`;
         explanation = `Le critère « strictement inférieure à ${threshold} » s'écrit < ${threshold} : ${good}.`;
         distractors = [
           `=${firstColumn}${row}<=${threshold}`,
@@ -1826,7 +1826,7 @@
       } else {
         const upper = threshold + randInt(5, 20, rng);
         good = `=ET(${firstColumn}${row}>=${threshold};${firstColumn}${row}<=${upper})`;
-        prompt = `On veut conserver les lignes dont la valeur en colonne ${firstColumn} est comprise entre ${threshold} et ${upper}, bornes incluses. Quelle formule renvoie VRAI exactement pour les lignes à conserver ?`;
+        prompt = `Quelle formule, saisie sur la ligne ${row}, vérifie que la valeur de la cellule ${firstColumn}${row} est comprise entre ${threshold} et ${upper}, bornes incluses ?`;
         explanation = `La valeur doit vérifier simultanément les deux bornes, d'où la fonction ET : ${good}.`;
         distractors = [
           `=OU(${firstColumn}${row}>=${threshold};${firstColumn}${row}<=${upper})`,
