@@ -335,21 +335,22 @@
 
   function powerRule(rng) {
     const family = randInt(0, 2, rng);
+    const base = pick([2, 3, 5, 7, 10], rng);
     const exponents = [-4, -3, -2, -1, 1, 2, 3, 4, 5, 6];
     const first = pick(exponents, rng);
     const second = pick(exponents, rng);
     const exponent = family === 0 ? first + second : family === 1 ? first - second : first * second;
-    const good = `10${superscript(exponent)}`;
+    const good = `${base}${superscript(exponent)}`;
     const { choices, answer } = makeChoices(good, [
-      `10${superscript(family === 0 ? first * second : first + second)}`,
-      `10${superscript(family === 2 ? first + second : first * second)}`,
-      `20${superscript(exponent)}`
+      `${base}${superscript(family === 0 ? first * second : first + second)}`,
+      `${base}${superscript(family === 2 ? first + second : first * second)}`,
+      `${base + 1}${superscript(exponent)}`
     ], rng);
     const operation = family === 0
-      ? `10${superscript(first)} × 10${superscript(second)}`
+        ? `${base}${superscript(first)} × ${base}${superscript(second)}`
       : family === 1
-        ? `10${superscript(first)} ÷ 10${superscript(second)}`
-        : `(10${superscript(first)})${superscript(second)}`;
+        ? `${base}${superscript(first)} ÷ ${base}${superscript(second)}`
+        : `(${base}${superscript(first)})${superscript(second)}`;
     const calculation = family === 0
       ? `${first} + (${second})`
       : family === 1
