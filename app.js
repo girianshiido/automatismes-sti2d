@@ -513,7 +513,7 @@
 
   function renderQuestionCanvases(root = dom.visual) {
     root.querySelectorAll("canvas[data-plot='quadratic']").forEach(canvas => {
-      const width = Math.max(260, Math.min(780, Math.round(canvas.getBoundingClientRect().width || 620)));
+      const width = Math.max(260, Math.round(canvas.getBoundingClientRect().width || 620));
       const height = Math.round(Math.max(210, width * 0.48));
       const ratio = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = width * ratio; canvas.height = height * ratio; canvas.style.height = `${height}px`;
@@ -533,7 +533,7 @@
       context.fillStyle = "#dc3f67"; [left, right].forEach(rootValue => { context.beginPath(); context.arc(px(rootValue), py(0), 5, 0, Math.PI * 2); context.fill(); });
     });
     root.querySelectorAll("canvas[data-plot='line']").forEach(canvas => {
-      const width = Math.max(260, Math.min(780, Math.round(canvas.getBoundingClientRect().width || 620)));
+      const width = Math.max(260, Math.round(canvas.getBoundingClientRect().width || 620));
       const height = Math.round(Math.max(210, width * 0.48));
       const ratio = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = width * ratio;
