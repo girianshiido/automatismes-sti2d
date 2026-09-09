@@ -235,8 +235,11 @@
     const order = [...kinds].sort(() => rng() - 0.5);
     for (let index = 0; index < config.count; index += 1) {
       const preferred = order[index % order.length];
-      const pool = index < order.length ? [preferred] : kinds;
-      const question = Engine.generateForKinds(pool, {}, rng, { keys: fingerprints, kinds: generated.slice(-Math.min(order.length - 1, generated.length)).map(item => item.kind) });
+      // On parcourt les formats dans un ordre mélangé puis on recommence :
+      // chaque thème est ainsi représenté avant qu'un autre ne réapparaisse.
+      const pool = [preferred];
+      const recentKinds = generated.slice(-Math.min(order.length - 1, generated.length)).map(item => item.kind);
+      const question = Engine.generateForKinds(pool, {}, rng, { keys: fingerprints, kinds: recentKinds });
       const fingerprint = Engine.fingerprint(question);
       fingerprints.push(fingerprint);
       generated.push(question);
