@@ -1440,8 +1440,7 @@
     const statusIndex = randInt(0, 1, rng);
     const numerator = values[rowIndex][statusIndex];
     const denominator = conditionByLine ? rowTotals[rowIndex] : columnTotals[statusIndex];
-    const probability = numerator / denominator;
-    const percent = Math.round(probability * 1000) / 10;
+    const exactProbability = fraction(numerator, denominator);
     const line = rowIndex === 0 ? "A" : "B";
     const status = statusIndex === 0 ? "conforme" : "non conforme";
     const statusPlural = statusIndex === 0 ? "conformes" : "non conformes";
@@ -1449,14 +1448,14 @@
       ? values[rowIndex][1 - statusIndex]
       : values[1 - rowIndex][statusIndex];
     const alternateDenominator = conditionByLine ? columnTotals[statusIndex] : rowTotals[rowIndex];
-    const { choices, answer } = makeChoices(`${formatNumber(percent, 1)} %`, [
-      `${formatNumber(numerator / total * 100, 1)} %`,
-      `${formatNumber(numerator / alternateDenominator * 100, 1)} %`,
-      `${formatNumber(otherNumerator / denominator * 100, 1)} %`
+    const { choices, answer } = makeChoices(exactProbability, [
+      fraction(numerator, total),
+      fraction(numerator, alternateDenominator),
+      fraction(otherNumerator, denominator)
     ], rng);
     const prompt = conditionByLine
-      ? `On choisit une pièce au hasard parmi les pièces de la ligne ${line}. Quelle est la probabilité qu'elle soit ${status} ?`
-      : `On choisit une pièce au hasard parmi les pièces ${statusPlural}. Quelle est la probabilité qu'elle provienne de la ligne ${line} ?`;
+      ? `On choisit une pièce au hasard parmi les pièces de la ligne ${line}. Quelle est la probabilité qu'elle soit ${status} ? Donner une fraction irréductible.`
+      : `On choisit une pièce au hasard parmi les pièces ${statusPlural}. Quelle est la probabilité qu'elle provienne de la ligne ${line} ? Donner une fraction irréductible.`;
     const conditionDescription = conditionByLine
       ? `les ${denominator} pièces de la ligne ${line}`
       : `les ${denominator} pièces ${statusPlural}`;
@@ -1469,7 +1468,7 @@
       prompt,
       choices, answer,
       visual: `<table aria-label="Tableau des pièces contrôlées"><tr><th></th><th>Conformes</th><th>Non conformes</th></tr><tr><th>Ligne A</th><td>${aYes}</td><td>${aNo}</td></tr><tr><th>Ligne B</th><td>${bYes}</td><td>${bNo}</td></tr></table>`,
-      explanation: `Parmi ${conditionDescription}, ${targetDescription} : ${numerator} : ${denominator} ≈ ${formatNumber(percent, 1)} %.`
+      explanation: `Parmi ${conditionDescription}, ${targetDescription} : la probabilité vaut ${numerator}/${denominator} = ${exactProbability}.`
     };
   }
 

@@ -40,6 +40,8 @@ assert.match(engine, /quadratic-sign-reading/, "une lecture graphique paraboliqu
 assert.match(engine, /const coefficient = pick\(\[-1, 1\], rng\)/, "les paraboles doivent rester visibles dans les deux orientations");
 assert.match(engine, /P_A\(B\).*P_Ā\(B\)/s, "les probabilités conditionnelles doivent utiliser des événements majuscules en indice");
 assert.doesNotMatch(engine, /P\(B\|A\)|P\(B\|Ā\)|Pₐ/, "les anciennes notations conditionnelles ne doivent plus apparaître");
+assert.match(engine, /const exactProbability = fraction\(numerator, denominator\)/, "les probabilités issues d'un tableau doivent être données exactement");
+assert.match(engine, /Donner une fraction irréductible/, "les probabilités issues d'un tableau doivent annoncer la forme attendue");
 assert.match(app, /choice\.length > 36 \? " long-answer"/, "les réponses longues doivent être adaptées dans les deux modes");
 assert.match(app, /subskill\.label \|\| subskill\.id\} · \$\{subskill\.id\}/, "la sélection personnelle doit distinguer chaque format");
 assert.match(await readFile(new URL("../styles.css", import.meta.url), "utf8"), /\.math-radical-sign::before/, "les styles de rendu mathématique doivent être présents");
