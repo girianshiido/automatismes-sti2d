@@ -51,7 +51,7 @@
       if (!subscript && !superscript) return target.append(document.createTextNode(fragment));
       // Safari peut couper entre le caractère de base et son exposant :
       // on les relie explicitement par un espace insécable (visuellement nul).
-      if (superscript && target.lastChild?.nodeType === Node.TEXT_NODE && /[A-Za-z0-9)]$/.test(target.lastChild.textContent)) {
+      if ((superscript || subscript) && target.lastChild?.nodeType === Node.TEXT_NODE && /[A-Za-z0-9)]$/.test(target.lastChild.textContent)) {
         target.lastChild.textContent += "\u2060";
       }
       const modifier = document.createElement("span");
