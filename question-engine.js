@@ -349,7 +349,7 @@
     const operation = family === 0
         ? `${base}${superscript(first)} × ${base}${superscript(second)}`
       : family === 1
-        ? `${base}${superscript(first)} ÷ ${base}${superscript(second)}`
+        ? `${base}${superscript(first)} : ${base}${superscript(second)}`
         : `(${base}${superscript(first)})${superscript(second)}`;
     const calculation = family === 0
       ? `${first} + (${second})`
@@ -823,7 +823,7 @@
       const expanded = affineExpression(-factorValue * coefficient, -factorValue * positiveConstant);
       const inside = affineExpression(coefficient, positiveConstant);
       good = `−${factorValue}(${inside})`;
-      prompt = `Factoriser par −${factorValue} : ${expanded}.`;
+      prompt = `Factoriser ${expanded} par −${factorValue}.`;
       explanation = `En mettant −${factorValue} en facteur, les signes changent dans la parenthèse : ${expanded} = ${good}.`;
       distractors = [
         `${factorValue}(${inside})`,

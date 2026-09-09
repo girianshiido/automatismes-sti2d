@@ -138,6 +138,7 @@
       // Forme canonique d'une parabole : toute l'expression reste solidaire.
       .replace(/f′?\(x\)\s*=\s*[−-]?\([^()]+\)[²³]\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
       .replace(/u[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+\s*=\s*[−-]?\d+u[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
+      .replace(/\d+[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+\s*:\s*\d+[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/g, formula => formula.replace(/\s/g, "\u00a0"))
       .replace(/\b[A-Z]\([−-]?\d+(?:[,.]\d+)?\s*;\s*[−-]?\d+(?:[,.]\d+)?\)/g, point => point.replace(/\s/g, "\u00a0").split("").join("\u2060"))
       .replace(/\([−-]?\d+(?:[,.]\d+)?\s*;\s*[−-]?\d+(?:[,.]\d+)?\)/g, point => point.replace(/\s/g, "\u00a0").split("").join("\u2060"))
       .replace(/[\[\]](?:[+−-]?∞|[−-]?\d+(?:[,.]\d+)?)\s*;\s*(?:[+−-]?∞|[−-]?\d+(?:[,.]\d+)?)[\[\]]/g, interval => interval.replace(/\s/g, "\u00a0").split("").join("\u2060"))
