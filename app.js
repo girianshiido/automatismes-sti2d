@@ -19,7 +19,7 @@
 
   const dom = {
     setup: $("#setup-screen"), series: $("#series-screen"), review: $("#review-screen"),
-    presetList: $("#preset-list"), skillPicker: $("#skill-picker"), skillList: $("#skill-list"), toggleAllSkills: $("#toggle-all-skills"),
+    presetList: $("#preset-list"), skillPicker: $("#skill-picker"), skillList: $("#skill-list"), toggleAllSkills: $("#toggle-all-skills"), sheetLink: $("#sheet-link"),
     count: $("#question-count"), duration: $("#question-duration"), quickStart: $("#quick-start"), start: $("#start-series"), copyLink: $("#copy-series-link"),
     seriesProgress: $("#series-progress"), progressBar: $("#progress-bar"), pause: $("#pause-series"), quit: $("#quit-series"), next: $("#next-question"),
     questionSkill: $("#question-skill"), timer: $("#timer"), timerValue: $("#timer-value"), visual: $("#question-visual"), questionText: $("#question-text"), answerZone: $("#answer-zone"),
@@ -232,8 +232,11 @@
     if (!kinds.length) throw new Error("Choisis au moins une notion.");
     const generated = [];
     const fingerprints = [];
+    const order = [...kinds].sort(() => rng() - 0.5);
     for (let index = 0; index < config.count; index += 1) {
-      const question = Engine.generateForKinds(kinds, {}, rng, { keys: fingerprints, kinds: index < kinds.length ? generated.map(item => item.kind) : [] });
+      const preferred = order[index % order.length];
+      const pool = index < order.length ? [preferred] : kinds;
+      const question = Engine.generateForKinds(pool, {}, rng, { keys: fingerprints, kinds: generated.slice(-Math.min(order.length - 1, generated.length)).map(item => item.kind) });
       const fingerprint = Engine.fingerprint(question);
       fingerprints.push(fingerprint);
       generated.push(question);
@@ -401,6 +404,10 @@
     cancelAnimationFrame(timerFrame);
     showScreen("review");
     const mode = settings().mode;
+    if (mode === "summary") {
+      showProjectionSummary();
+      return;
+    }
     const results = questions.map((question, index) => isCorrect(question, answers[index]));
     const correct = results.filter(Boolean).length;
     dom.reviewTitle.textContent = `Reprenons les ${questions.length} questions.`;
@@ -622,5 +629,8 @@
   });
 
   optionSkills();
+  const updateSheetLink = () => { if (dom.sheetLink) dom.sheetLink.href = `fiche.html?n=${encodeURIComponent(dom.count.value)}`; };
+  dom.count.addEventListener("change", updateSheetLink);
+  updateSheetLink();
   loadURLSettings();
 })();

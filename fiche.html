@@ -55,7 +55,9 @@
     </main>
     <script>
       document.querySelectorAll("tbody").forEach(body => {
-        for (let index = 1; index <= 6; index += 1) {
+        const count = Math.min(12, Math.max(1, Number(new URLSearchParams(location.search).get("n")) || 6));
+        document.querySelectorAll(".session-head b").forEach(score => { score.textContent = `Score : ____ / ${count}`; });
+        for (let index = 1; index <= count; index += 1) {
           const row = document.createElement("tr");
           row.innerHTML = `<th>${index}</th><td></td><td></td><td class="point">□</td>`;
           body.append(row);

@@ -53,11 +53,12 @@
               <legend>Mode de réponse</legend>
               <label><input type="radio" name="answer-mode" value="projection" checked><span><b>QCM projeté</b><small>Les élèves recopient uniquement A, B, C ou D</small></span></label>
               <label><input type="radio" name="answer-mode" value="qcm"><span><b>QCM individuel</b><small>Les élèves cliquent eux-mêmes sur leur réponse</small></span></label>
+              <label><input type="radio" name="answer-mode" value="summary"><span><b>Correction express</b><small>Récapitulatif immédiat : question 1 → A, question 2 → C…</small></span></label>
             </fieldset>
             <div class="setup-actions">
               <button id="start-series" class="primary-button" type="button">Lancer la série</button>
               <button id="copy-series-link" class="secondary-button" type="button">Copier un lien vers cette série</button>
-              <a class="sheet-button" href="fiche.html" target="_blank" rel="noopener">Imprimer la fiche élève</a>
+              <a id="sheet-link" class="sheet-button" href="fiche.html" target="_blank" rel="noopener">Imprimer la fiche élève</a>
             </div>
             <p class="private-note">Exerciseur autonome, utilisable indépendamment en classe.</p>
           </aside>
