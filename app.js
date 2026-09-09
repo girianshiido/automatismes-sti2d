@@ -134,6 +134,8 @@
     const fragment = document.createDocumentFragment();
     const source = String(text)
       .replace(/\bh\s*=\s*[−-]?\d+(?:[,.]\d+)?/g, formula => formula.replace(/\s/g, "\u00a0"))
+      // Forme canonique d'une parabole : toute l'expression reste solidaire.
+      .replace(/f′?\(x\)\s*=\s*[−-]?\([^()]+\)[²³]\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
       // Typographie française : les guillemets ne doivent jamais rester seuls.
       .replace(/«\s+/g, "«\u00a0")
       .replace(/\s+»/g, "\u00a0»")
