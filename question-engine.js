@@ -990,7 +990,8 @@
   function quadraticSignReading(rng) {
     const firstRoot = randInt(-4, -1, rng);
     const secondRoot = randInt(1, 4, rng);
-    const coefficient = pick([-2, -1, 1, 2], rng);
+    // Avec a = ±1, le sommet reste dans la fenêtre [-8 ; 12] du graphique.
+    const coefficient = pick([-1, 1], rng);
     const relation = pick([">", "≥", "<", "≤", "="], rng);
     const opensUp = coefficient > 0;
     const outside = relation === ">" ? opensUp : relation === "≥" ? opensUp : relation === "<" ? !opensUp : relation === "≤" ? !opensUp : false;
