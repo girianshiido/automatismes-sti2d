@@ -440,10 +440,10 @@
       const high = randInt(4, 10, rng);
       const low = high - randInt(2, 4, rng);
       variant = {
-        statement: `Si x > ${high}, alors x > ${low}.`,
-        reciprocal: `Si x > ${low}, alors x > ${high}.`,
-        contrapositive: `Si x ≤ ${low}, alors x ≤ ${high}.`,
-        other: `Si x < ${high}, alors x < ${low}.`
+        statement: `Si x > ${high}, alors x > ${low}`,
+        reciprocal: `Si x > ${low}, alors x > ${high}`,
+        contrapositive: `Si x ≤ ${low}, alors x ≤ ${high}`,
+        other: `Si x < ${high}, alors x < ${low}`
       };
     } else {
       const divisor = 2 * randInt(2, 6, rng);
