@@ -35,9 +35,13 @@ assert.match(app, /Question \$\{index \+ 1\}.*ANSWER_LETTERS\[question\.answer\]
 assert.match(app, /total sur \$\{questions\.length\}/, "le total doit utiliser le nombre réel de questions");
 assert.match(app, /function renderMathText/, "le rendu mathématique doit être embarqué");
 assert.match(app, /math-inline-fraction/, "les fractions doivent bénéficier du rendu mathématique amélioré");
+assert.match(app, /math-set-operator/, "les opérateurs d'ensembles doivent bénéficier d'un rendu mathématique lisible");
+assert.match(app, /\[A-Z\]\\s\*\=\\s\*\\\{\[\^\{\}\]\+\\\}/, "chaque nom d'ensemble doit rester attaché à son contenu");
+assert.match(engine, /\.\\n\$\{mode === "intersection"/, "les données et la question sur les ensembles doivent être sur deux lignes");
 assert.match(app, /context\.fillText/, "les graphiques doivent afficher leurs graduations");
 assert.match(engine, /quadratic-sign-reading/, "une lecture graphique parabolique doit être proposée");
 assert.match(engine, /const coefficient = pick\(\[-1, 1\], rng\)/, "les paraboles doivent rester visibles dans les deux orientations");
+assert.match(engine, /value \/ maximum \* 86/, "les diagrammes en barres doivent réserver une marge aux étiquettes supérieures");
 assert.match(engine, /P_A\(B\).*P_Ā\(B\)/s, "les probabilités conditionnelles doivent utiliser des événements majuscules en indice");
 assert.doesNotMatch(engine, /P\(B\|A\)|P\(B\|Ā\)|Pₐ/, "les anciennes notations conditionnelles ne doivent plus apparaître");
 assert.match(engine, /const exactProbability = fraction\(numerator, denominator\)/, "les probabilités issues d'un tableau doivent être données exactement");

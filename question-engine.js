@@ -384,7 +384,7 @@
     return {
       kind: "set-intersection",
       skill: "logic",
-      prompt: `A = ${writeSet(setA)} et B = ${writeSet(setB)}. ${mode === "intersection" ? "Quel est l'ensemble A ∩ B ?" : mode === "union" ? "Quel est l'ensemble A ∪ B ?" : "Quelle est la valeur de Card(A ∩ B) ?"}`,
+      prompt: `A = ${writeSet(setA)} et B = ${writeSet(setB)}.\n${mode === "intersection" ? "Quel est l'ensemble A ∩ B ?" : mode === "union" ? "Quel est l'ensemble A ∪ B ?" : "Quelle est la valeur de Card(A ∩ B) ?"}`,
       choices, answer,
       explanation: mode === "union"
         ? `A ∪ B rassemble tous les éléments appartenant à A ou à B : ${good}.`
@@ -1383,7 +1383,7 @@
       skill: "statistics",
       prompt: "Combien d'éléments sont représentés au total par ce diagramme en barres ?",
       choices, answer,
-      visual: `<div class="mini-bars" role="img" aria-label="Diagramme en barres : ${values.map((value, index) => `${labels[index]} ${value}`).join(", ")}">${values.map((value, index) => `<div><span style="--bar-height:${Math.round(value / maximum * 100)}%"><b>${value}</b></span><small>${labels[index]}</small></div>`).join("")}</div>`,
+      visual: `<div class="mini-bars" role="img" aria-label="Diagramme en barres : ${values.map((value, index) => `${labels[index]} ${value}`).join(", ")}">${values.map((value, index) => `<div><span style="--bar-height:${Math.round(value / maximum * 86)}%"><b>${value}</b></span><small>${labels[index]}</small></div>`).join("")}</div>`,
       explanation: `On additionne les quatre effectifs : ${values.join(" + ")} = ${good}.`
     };
   }

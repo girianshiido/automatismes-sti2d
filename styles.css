@@ -96,7 +96,7 @@ select { width: 100%; min-height: 46px; padding: 10px 34px 10px 12px; border: 1p
 .timer.urgent { background: radial-gradient(circle at center,#09202d 59%,transparent 61%), conic-gradient(var(--danger) calc(var(--timer-progress) * 1turn),rgba(136,205,222,.13) 0); }
 .timer strong { font-size: 22px; font-variant-numeric: tabular-nums; }
 .timer small { margin-left: 2px; color: var(--muted); font-size: 9px; }
-#question-text { max-width: 1100px; min-height: 110px; margin: 42px auto 34px; font-size: clamp(24px,4vw,42px); line-height: 1.32; text-align: center; text-wrap: balance; }
+#question-text { max-width: 1100px; min-height: 110px; margin: 42px auto 34px; font-size: clamp(24px,4vw,42px); line-height: 1.32; text-align: center; text-wrap: balance; white-space: pre-line; }
 .answer-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; max-width: 1100px; margin: 0 auto; }
 .answer-card { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 13px; align-items: center; min-width: 0; min-height: 72px; padding: 12px 15px; overflow: hidden; border: 1px solid var(--line-bright); border-radius: 13px; color: var(--text); background: rgba(7,30,42,.78); font-size: 16px; font-weight: 750; text-align: left; }
 .answer-button { width: 100%; }
@@ -146,7 +146,7 @@ select { width: 100%; min-height: 46px; padding: 10px 34px 10px 12px; border: 1p
 .review-status { color: var(--green); }
 .review-item.wrong .review-status { color: var(--danger); }
 .review-item.unanswered .review-status { color: var(--amber); }
-.review-question { margin: 32px 0; font-size: clamp(28px,4.5vw,52px); line-height: 1.3; text-align: center; }
+.review-question { margin: 32px 0; font-size: clamp(28px,4.5vw,52px); line-height: 1.3; text-align: center; white-space: pre-line; }
 .review-answer { display: grid; gap: 7px; padding: 20px; border-radius: 12px; background: rgba(120,230,163,.07); font-size: clamp(16px,2vw,23px); line-height: 1.5; text-align: center; }
 .review-answer .student { color: var(--muted); }
 .review-answer-letter { display: inline-grid; place-items: center; width: 1.7em; height: 1.7em; margin-inline: .18em; border: 2px solid currentColor; border-radius: 50%; line-height: 1; vertical-align: middle; }
@@ -173,6 +173,7 @@ dialog::backdrop { background: rgba(1,8,13,.78); backdrop-filter: blur(7px); }
 .toast { position: fixed; z-index: 50; right: 20px; bottom: 20px; max-width: min(390px,calc(100% - 40px)); padding: 12px 15px; border: 1px solid var(--line-bright); border-radius: 11px; background: #0b2a3a; box-shadow: var(--shadow); font-size: 11px; opacity: 0; pointer-events: none; transform: translateY(12px); transition: .2s ease; }
 .toast.show { opacity: 1; transform: translateY(0); }
 .math-inline { display: inline-block; white-space: nowrap; }
+.math-set-operator { display: inline-block; margin-inline: .08em; font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; font-size: 1.08em; font-weight: 600; line-height: .8; vertical-align: -.04em; }
 .math-inline-fraction { display: inline-flex; align-items: center; vertical-align: baseline; }
 .math-sub, .math-sup { font-family: inherit; font-size: .65em; line-height: 0; letter-spacing: -.08em; }
 .math-sub { vertical-align: -.34em; }
