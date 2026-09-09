@@ -457,8 +457,7 @@
     }
     const askReciprocal = rng() < 0.5;
     const target = askReciprocal ? variant.reciprocal : variant.contrapositive;
-    const statementWithoutFinalDot = variant.statement.replace(/[.]$/, "");
-    const { choices, answer } = makeChoices(target, [variant.reciprocal, variant.contrapositive, variant.other, `${statementWithoutFinalDot} et sa réciproque sont équivalentes.`], rng);
+    const { choices, answer } = makeChoices(target, [variant.reciprocal, variant.contrapositive, variant.other, "La proposition et sa réciproque sont équivalentes."], rng);
     return {
       kind: "statement-reciprocal",
       skill: "logic",
@@ -1491,9 +1490,9 @@
     return {
       kind: "total-probability",
       skill: "probability",
-      prompt: `P(A) = ${formatNumber(pA)}, Pₐ(B) = ${formatNumber(pGivenA)} et Pₐ̄(B) = ${formatNumber(pGivenNotA)}. Calculer P(B).`,
+      prompt: `P(A) = ${formatNumber(pA)}, P_A(B) = ${formatNumber(pGivenA)} et P_Ā(B) = ${formatNumber(pGivenNotA)}. Calculer P(B).`,
       choices, answer,
-      explanation: `P(B) = P(A)Pₐ(B) + P(Ā)Pₐ̄(B) = ${formatNumber(pA)} × ${formatNumber(pGivenA)} + ${formatNumber(1 - pA)} × ${formatNumber(pGivenNotA)} = ${formatNumber(good, 2)}.`
+      explanation: `P(B) = P(A)P_A(B) + P(Ā)P_Ā(B) = ${formatNumber(pA)} × ${formatNumber(pGivenA)} + ${formatNumber(1 - pA)} × ${formatNumber(pGivenNotA)} = ${formatNumber(good, 2)}.`
     };
   }
 

@@ -43,10 +43,11 @@
   function appendMathCharacters(target, text) {
     String(text)
       .replace(/(^|[\s=(;,])-(?=[0-9xyzuiρπ])/gi, "$1−")
-      .replace(/(?<=[0-9A-Za-z)])\s+([=+−×÷<>≤≥])\s+(?=[0-9A-Za-z(])/g, "\u00a0$1\u00a0")
-      .split(/([₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+|[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)/g).forEach(fragment => {
+      .replace(/(?<=[0-9A-Za-z)²³])\s+([=+−×÷<>≤≥])\s+(?=[0-9A-Za-z(−-])/g, "\u00a0$1\u00a0")
+      .split(/(_[A-ZĀ]|[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+|[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)/g).forEach(fragment => {
       if (!fragment) return;
-      const subscript = [...fragment].every(character => SUBSCRIPT_CHARACTERS[character] !== undefined);
+      const namedSubscript = /^_[A-ZĀ]$/.test(fragment);
+      const subscript = namedSubscript || [...fragment].every(character => SUBSCRIPT_CHARACTERS[character] !== undefined);
       const superscript = [...fragment].every(character => SUPERSCRIPT_CHARACTERS[character] !== undefined);
       if (!subscript && !superscript) return target.append(document.createTextNode(fragment));
       // Safari peut couper entre le caractère de base et son exposant :
@@ -56,7 +57,7 @@
       }
       const modifier = document.createElement("span");
       modifier.className = subscript ? "math-sub" : "math-sup";
-      modifier.textContent = [...fragment].map(character => (subscript ? SUBSCRIPT_CHARACTERS : SUPERSCRIPT_CHARACTERS)[character]).join("");
+      modifier.textContent = namedSubscript ? fragment.slice(1) : [...fragment].map(character => (subscript ? SUBSCRIPT_CHARACTERS : SUPERSCRIPT_CHARACTERS)[character]).join("");
       target.append(modifier);
     });
   }
@@ -138,6 +139,10 @@
       .replace(/f′?\(x\)\s*=\s*[−-]?\([^()]+\)[²³]\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
       .replace(/u[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+\s*=\s*[−-]?\d+u[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
       .replace(/\b[A-Z]\([−-]?\d+(?:[,.]\d+)?\s*;\s*[−-]?\d+(?:[,.]\d+)?\)/g, point => point.replace(/\s/g, "\u00a0").split("").join("\u2060"))
+      .replace(/\([−-]?\d+(?:[,.]\d+)?\s*;\s*[−-]?\d+(?:[,.]\d+)?\)/g, point => point.replace(/\s/g, "\u00a0").split("").join("\u2060"))
+      .replace(/[\[\]](?:[+−-]?∞|[−-]?\d+(?:[,.]\d+)?)\s*;\s*(?:[+−-]?∞|[−-]?\d+(?:[,.]\d+)?)[\[\]]/g, interval => interval.replace(/\s/g, "\u00a0").split("").join("\u2060"))
+      .replace(/\{[^{}]+\}/g, set => set.replace(/\s/g, "\u00a0").split("").join("\u2060"))
+      .replace(/=[A-ZÀ-Ÿ]+\([^()]+\)|=[A-Z]+\d+(?:[+*/−-]\d+|[+*/−-][A-Z]+\d+)*/g, formula => formula.split("").join("\u2060"))
       // Typographie française : les guillemets ne doivent jamais rester seuls.
       .replace(/«\s+/g, "«\u00a0")
       .replace(/\s+»/g, "\u00a0»")
@@ -337,7 +342,7 @@
         letter.className = "answer-letter";
         letter.textContent = ANSWER_LETTERS[index];
         const text = document.createElement("span");
-        text.className = `answer-text${choice.length > 54 ? " long-answer" : ""}`;
+        text.className = `answer-text${choice.length > 36 ? " long-answer" : ""}`;
         renderMathText(text, choice);
         button.append(letter, text);
         button.addEventListener("click", () => {
@@ -349,12 +354,12 @@
     } else {
       question.choices.forEach((choice, index) => {
         const item = document.createElement("div");
-        item.className = `projected-answer answer-card${choice.length > 54 ? " long-answer" : ""}`;
+        item.className = "projected-answer answer-card";
         const letter = document.createElement("span");
         letter.className = "answer-letter";
         letter.textContent = ANSWER_LETTERS[index];
         const text = document.createElement("span");
-        text.className = "answer-text";
+        text.className = `answer-text${choice.length > 36 ? " long-answer" : ""}`;
         renderMathText(text, choice);
         item.append(letter, text);
         dom.answerZone.append(item);

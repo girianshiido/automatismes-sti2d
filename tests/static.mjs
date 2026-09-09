@@ -36,8 +36,11 @@ assert.match(app, /total sur \$\{questions\.length\}/, "le total doit utiliser l
 assert.match(app, /function renderMathText/, "le rendu mathématique doit être embarqué");
 assert.match(app, /math-inline-fraction/, "les fractions doivent bénéficier du rendu mathématique amélioré");
 assert.match(app, /context\.fillText/, "les graphiques doivent afficher leurs graduations");
-assert.match(await readFile(new URL("../question-engine.js", import.meta.url), "utf8"), /quadratic-sign-reading/, "une lecture graphique parabolique doit être proposée");
-assert.match(await readFile(new URL("../question-engine.js", import.meta.url), "utf8"), /pick\(\[-2, -1, 1, 2\], rng\)/, "les paraboles doivent pouvoir être orientées vers le haut ou vers le bas");
+assert.match(engine, /quadratic-sign-reading/, "une lecture graphique parabolique doit être proposée");
+assert.match(engine, /const coefficient = pick\(\[-1, 1\], rng\)/, "les paraboles doivent rester visibles dans les deux orientations");
+assert.match(engine, /P_A\(B\).*P_Ā\(B\)/s, "les probabilités conditionnelles doivent utiliser des événements majuscules en indice");
+assert.doesNotMatch(engine, /P\(B\|A\)|P\(B\|Ā\)|Pₐ/, "les anciennes notations conditionnelles ne doivent plus apparaître");
+assert.match(app, /choice\.length > 36 \? " long-answer"/, "les réponses longues doivent être adaptées dans les deux modes");
 assert.match(app, /subskill\.label \|\| subskill\.id\} · \$\{subskill\.id\}/, "la sélection personnelle doit distinguer chaque format");
 assert.match(await readFile(new URL("../styles.css", import.meta.url), "utf8"), /\.math-radical-sign::before/, "les styles de rendu mathématique doivent être présents");
 assert.match(app, /quickStart/, "le rituel par défaut doit pouvoir démarrer en un clic");

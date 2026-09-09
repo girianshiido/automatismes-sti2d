@@ -98,13 +98,13 @@ select { width: 100%; min-height: 46px; padding: 10px 34px 10px 12px; border: 1p
 .timer small { margin-left: 2px; color: var(--muted); font-size: 9px; }
 #question-text { max-width: 1100px; min-height: 110px; margin: 42px auto 34px; font-size: clamp(24px,4vw,42px); line-height: 1.32; text-align: center; text-wrap: balance; }
 .answer-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; max-width: 1100px; margin: 0 auto; }
-.answer-card { display: grid; grid-template-columns: auto 1fr; gap: 13px; align-items: center; min-height: 72px; padding: 12px 15px; border: 1px solid var(--line-bright); border-radius: 13px; color: var(--text); background: rgba(7,30,42,.78); font-size: 16px; font-weight: 750; text-align: left; }
+.answer-card { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 13px; align-items: center; min-width: 0; min-height: 72px; padding: 12px 15px; overflow: hidden; border: 1px solid var(--line-bright); border-radius: 13px; color: var(--text); background: rgba(7,30,42,.78); font-size: 16px; font-weight: 750; text-align: left; }
 .answer-button { width: 100%; }
 .answer-button:hover { border-color: var(--cyan); }
 .answer-button.selected { border-color: var(--cyan); color: var(--cyan); background: rgba(102,228,231,.12); box-shadow: inset 0 0 0 1px rgba(102,228,231,.18); }
 .answer-letter { display: grid; place-items: center; width: 42px; height: 42px; border: 2px solid currentColor; border-radius: 50%; font-size: 19px; font-weight: 950; }
 .answer-text { min-width: 0; white-space: nowrap; }
-.long-answer { white-space: normal; font-size: .82em; line-height: 1.15; overflow-wrap: anywhere; }
+.long-answer { max-width: 100%; white-space: normal; font-size: .78em; line-height: 1.15; overflow-wrap: break-word; }
 .projected-answer { cursor: default; }
 .projection-note { grid-column: 1 / -1; padding: 19px; border: 1px dashed var(--line-bright); border-radius: 13px; color: var(--muted); text-align: center; font-size: 12px; }
 .question-actions { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-top: 34px; }
