@@ -356,10 +356,11 @@
       : family === 1
         ? `${first} − (${second})`
         : `${first} × ${second}`;
+    const operationName = family === 0 ? "le produit" : family === 1 ? "le quotient" : "la puissance";
     return {
       kind: "power-rule",
       skill: "numeric",
-      prompt: `Simplifier : ${operation}.`,
+      prompt: `Simplifier ${operationName} ${operation}.`,
       choices, answer,
       explanation: `${family === 0 ? "Dans un produit, on additionne" : family === 1 ? "Dans un quotient, on soustrait" : "Pour une puissance de puissance, on multiplie"} les exposants : ${calculation} = ${exponent}.`
     };

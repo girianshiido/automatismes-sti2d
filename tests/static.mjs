@@ -49,6 +49,8 @@ assert.match(app, /context\.fillText/, "les graphiques doivent afficher leurs gr
 assert.match(engine, /quadratic-sign-reading/, "une lecture graphique parabolique doit être proposée");
 assert.match(engine, /const coefficient = pick\(\[-1, 1\], rng\)/, "les paraboles doivent rester visibles dans les deux orientations");
 assert.match(engine, /value \/ maximum \* 86/, "les diagrammes en barres doivent réserver une marge aux étiquettes supérieures");
+assert.match(engine, /Simplifier \$\{operationName\} \$\{operation\}/, "la consigne sur les puissances doit distinguer produit, quotient et puissance");
+assert.doesNotMatch(engine, /prompt: `Simplifier :/, "une consigne ne doit pas employer le même deux-points que la division");
 assert.match(engine, /P_A\(B\).*P_Ā\(B\)/s, "les probabilités conditionnelles doivent utiliser des événements majuscules en indice");
 assert.doesNotMatch(engine, /P\(B\|A\)|P\(B\|Ā\)|Pₐ/, "les anciennes notations conditionnelles ne doivent plus apparaître");
 assert.match(engine, /formatNumber\(pA\)\} ; P_A\(B\)/, "les données probabilistes décimales doivent être séparées par un point-virgule");
