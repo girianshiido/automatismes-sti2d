@@ -650,6 +650,7 @@
     const r1 = pick([-20, -10, 10, 20, 25], rng);
     const r2 = pick([-20, -10, 10, 20, 25], rng);
     const total = ((1 + r1 / 100) * (1 + r2 / 100) - 1) * 100;
+    const exactToTenth = Math.abs(total * 10 - Math.round(total * 10)) < 1e-9;
     const good = formatEvolutionRate(total);
     const sum = r1 + r2;
     const { choices, answer } = makeChoices(good, [
@@ -660,11 +661,11 @@
     return {
       kind: "successive-rates",
       skill: "evolutions",
-      prompt: `Une valeur évolue de ${r1 >= 0 ? "+" : "−"}${Math.abs(r1)} %, puis de ${r2 >= 0 ? "+" : "−"}${Math.abs(r2)} %. Quelle est l'évolution globale ?`,
+      prompt: `Une valeur évolue de ${r1 >= 0 ? "+" : "−"}${Math.abs(r1)} %, puis de ${r2 >= 0 ? "+" : "−"}${Math.abs(r2)} %. Quelle est l'évolution globale${exactToTenth ? "" : ", arrondie au dixième de pourcent"} ?`,
       choices, answer,
       explanation: Math.abs(total) < 1e-9
         ? `Les coefficients se multiplient : ${formatNumber(1 + r1 / 100)} × ${formatNumber(1 + r2 / 100)} = 1. La valeur finale est égale à la valeur initiale : il n'y a pas d'évolution.`
-        : `Les coefficients se multiplient : ${formatNumber(1 + r1 / 100)} × ${formatNumber(1 + r2 / 100)} = ${formatNumber(1 + total / 100, 3)}, soit ${good}.`
+        : `Les coefficients se multiplient : ${formatNumber(1 + r1 / 100)} × ${formatNumber(1 + r2 / 100)} = ${formatNumber(1 + total / 100, 4)}, soit ${exactToTenth ? "" : "environ "}${good}.`
     };
   }
 
@@ -686,6 +687,7 @@
     const rate = pick([-50, -25, -20, -10, 10, 20, 25, 50], rng);
     const coefficient = 1 + rate / 100;
     const reciprocal = (1 / coefficient - 1) * 100;
+    const exactToTenth = Math.abs(reciprocal * 10 - Math.round(reciprocal * 10)) < 1e-9;
     const good = `${reciprocal >= 0 ? "+" : "−"}${formatNumber(Math.abs(reciprocal), 1)} %`;
     const { choices, answer } = makeChoices(good, [
       `${rate >= 0 ? "−" : "+"}${Math.abs(rate)} %`,
@@ -695,9 +697,11 @@
     return {
       kind: "reciprocal-rate",
       skill: "evolutions",
-      prompt: `Quel taux permet d'annuler exactement une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} % ?`,
+      prompt: exactToTenth
+        ? `Quel taux permet d'annuler exactement une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} % ?`
+        : `Au dixième de pourcent près, quel taux permet de compenser une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} % ?`,
       choices, answer,
-      explanation: `Le coefficient réciproque est 1 : ${formatNumber(coefficient)} = ${formatNumber(1 / coefficient, 3)}, soit un taux de ${good}.`
+      explanation: `Le coefficient réciproque est 1 : ${formatNumber(coefficient)} ${exactToTenth ? "=" : "≈"} ${formatNumber(1 / coefficient, 4)}, soit ${exactToTenth ? "un taux de" : "environ"} ${good}.`
     };
   }
 
