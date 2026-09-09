@@ -8,6 +8,7 @@ header p { margin: 0 0 1mm; color: #5a47cf; font-size: 8pt; font-weight: 800; le
 h1 { margin: 0; font-size: 19pt; line-height: 1; }
 .instructions { margin: 3mm 0; padding: 2.5mm 3mm; border: 1.5px solid #111; border-radius: 3mm; background: #fff1a8; font-size: 8pt; line-height: 1.25; }
 .sessions { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+.long-sheet .session:nth-child(n+5) { display: none; }
 .session { break-inside: avoid; border: 2px solid #111; border-radius: 3mm; overflow: hidden; }
 .session:nth-child(1) .session-head { background: #9cecf0; }
 .session:nth-child(2) .session-head { background: #ffc4da; }
@@ -34,7 +35,6 @@ footer div { height: 7mm; border-bottom: 1.5px solid #111; }
   body { background: white; }
   .page { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
   .print-button { display: none; }
-  .long-sheet .session:nth-child(5) { break-before: page; }
 }
 @media screen and (max-width: 850px) {
   .page { width: calc(100% - 20px); height: auto; min-height: 0; padding: 18px; }
