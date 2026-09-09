@@ -158,9 +158,9 @@ select { width: 100%; min-height: 46px; padding: 10px 34px 10px 12px; border: 1p
 .projection-summary { padding: clamp(24px,4vw,46px); border: 3px solid #171717; border-radius: 18px; background: #fff; box-shadow: 5px 5px 0 #171717; text-align: center; }
 .projection-summary h2 { margin: 7px 0 28px; font-size: clamp(28px,4vw,46px); }
 .projection-summary-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
-.projection-summary-item { display: grid; grid-template-columns: 1fr auto auto; gap: 13px; align-items: center; min-height: 76px; padding: 13px 18px; border: 2px solid #171717; border-radius: 13px; background: #fff7ce; font-size: clamp(17px,2vw,24px); text-align: left; }
+.projection-summary-item { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 13px; align-items: center; min-width: 0; min-height: 76px; padding: 13px 18px; overflow: hidden; border: 2px solid #171717; border-radius: 13px; background: #fff7ce; font-size: clamp(17px,2vw,24px); text-align: left; }
 .projection-summary-item b { font-size: 1.25em; }
-.projection-summary-item strong { display: grid; place-items: center; width: 2em; height: 2em; border: 2px solid #171717; border-radius: 50%; color: #176b3a; background: #bfeabd; font-size: 1.05em; }
+.projection-summary-item strong { display: grid; place-items: center; flex: 0 0 auto; width: 2em; height: 2em; justify-self: end; border: 2px solid #171717; border-radius: 50%; color: #176b3a; background: #bfeabd; font-size: 1.05em; }
 .projection-summary > button { margin-top: 25px; }
 .review-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
 dialog { padding: 0; border: 0; color: var(--text); background: transparent; }
