@@ -516,10 +516,10 @@
 
   function proportionValue(rng) {
     const item = pick([
-      { singular: "usine", plural: "usines", unit: "modèles", verb: "fabrique" },
-      { singular: "chaîne d'assemblage", plural: "chaînes d'assemblage", unit: "boîtiers", verb: "assemble" },
-      { singular: "atelier", plural: "ateliers", unit: "pièces", verb: "produit" },
-      { singular: "capteur", plural: "capteurs", unit: "mesures", verb: "enregistre" }
+      { singular: "usine", plural: "usines", unit: "modèles", verb: "fabrique", pluralVerb: "fabriquent" },
+      { singular: "chaîne d'assemblage", plural: "chaînes d'assemblage", unit: "boîtiers", verb: "assemble", pluralVerb: "assemblent" },
+      { singular: "atelier", plural: "ateliers", unit: "pièces", verb: "produit", pluralVerb: "produisent" },
+      { singular: "capteur", plural: "capteurs", unit: "mesures", verb: "enregistre", pluralVerb: "enregistrent" }
     ], rng);
     const baseCount = randInt(2, 6, rng);
     const perItem = randInt(3, 15, rng);
@@ -535,7 +535,7 @@
     return {
       kind: "direct-proportion",
       skill: "proportions",
-      prompt: `${baseCount} ${baseCount > 1 ? item.plural : item.singular} ${item.verb}${baseCount > 1 ? "ent" : ""} ${baseValue} ${item.unit}. Combien en ${item.verb}${targetCount > 1 ? "ent" : ""} ${targetCount} ${item.plural} dans la même situation ?`,
+      prompt: `${baseCount} ${baseCount > 1 ? item.plural : item.singular} ${baseCount > 1 ? item.pluralVerb : item.verb} ${baseValue} ${item.unit}. Combien ${targetCount} ${item.plural} en ${item.pluralVerb} dans la même situation ?`,
       choices: choices.map(value => `${value} ${item.unit}`), answer,
       explanation: `Une unité fournit ${baseValue} ÷ ${baseCount} = ${perItem} ${item.unit}. Donc ${targetCount} unités fournissent ${targetCount} × ${perItem} = ${targetValue} ${item.unit}.`
     };
