@@ -989,17 +989,16 @@
   function quadraticSignReading(rng) {
     const firstRoot = randInt(-4, -1, rng);
     const secondRoot = randInt(1, 4, rng);
-    const coefficient = pick([1, 2], rng);
+    const coefficient = pick([-2, -1, 1, 2], rng);
     const relation = pick([">", "≥", "<", "≤", "="], rng);
-    const good = relation === ">"
-      ? `x < ${firstRoot} ou x > ${secondRoot}`
-      : relation === "≥"
-        ? `x ≤ ${firstRoot} ou x ≥ ${secondRoot}`
-        : relation === "<"
-          ? `${firstRoot} < x < ${secondRoot}`
-          : relation === "≤"
-            ? `${firstRoot} ≤ x ≤ ${secondRoot}`
-            : `x = ${firstRoot} ou x = ${secondRoot}`;
+    const opensUp = coefficient > 0;
+    const outside = relation === ">" ? opensUp : relation === "≥" ? opensUp : relation === "<" ? !opensUp : relation === "≤" ? !opensUp : false;
+    const inclusive = relation === "≥" || relation === "≤";
+    const good = relation === "="
+      ? `x = ${firstRoot} ou x = ${secondRoot}`
+      : outside
+        ? `x ${inclusive ? "≤" : "<"} ${firstRoot} ou x ${inclusive ? "≥" : ">"} ${secondRoot}`
+        : `${firstRoot} ${inclusive ? "≤" : "<"} x ${inclusive ? "≤" : "<"} ${secondRoot}`;
     const { choices, answer } = makeChoices(good, [
       `x < ${firstRoot} ou x > ${secondRoot}`,
       `${firstRoot} < x < ${secondRoot}`,
@@ -1007,14 +1006,15 @@
       `x < ${secondRoot}`,
       `x = ${firstRoot} ou x = ${secondRoot}`
     ], rng);
-    const position = relation === ">" || relation === "≥" ? "à l'extérieur" : relation === "=" ? "aux deux points d'intersection" : "entre les deux racines";
+    const position = relation === "=" ? "aux deux points d'intersection" : outside ? "à l'extérieur" : "entre les deux racines";
+    const orientation = opensUp ? "tournée vers le haut" : "tournée vers le bas";
     return {
       kind: "quadratic-sign-reading",
       skill: "functions",
       prompt: `À l'aide de la parabole représentée, résoudre f(x) ${relation} 0.`,
       choices, answer,
-      visual: `<canvas class="question-plot" data-plot="quadratic" data-coefficient="${coefficient}" data-root-left="${firstRoot}" data-root-right="${secondRoot}" role="img" aria-label="Parabole tournée vers le haut, avec deux intersections avec l'axe des abscisses"></canvas>`,
-      explanation: `La parabole est tournée vers le haut et coupe l'axe en ${firstRoot} et ${secondRoot}. Pour f(x) ${relation} 0, on retient ${position} (avec les racines incluses lorsque le signe est large). La solution est donc ${good}.`
+      visual: `<canvas class="question-plot" data-plot="quadratic" data-coefficient="${coefficient}" data-root-left="${firstRoot}" data-root-right="${secondRoot}" role="img" aria-label="Parabole ${orientation}, avec deux intersections avec l'axe des abscisses"></canvas>`,
+      explanation: `La parabole est ${orientation} et coupe l'axe en ${firstRoot} et ${secondRoot}. Pour f(x) ${relation} 0, on retient ${position} (avec les racines incluses lorsque le signe est large). La solution est donc ${good}.`
     };
   }
 
