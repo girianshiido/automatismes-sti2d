@@ -305,6 +305,9 @@ select { border: 2px solid #171717; color: #171717; background: #fff; }
 .question-visual table { background: #fff; }
 .question-visual th, .question-visual td { border: 2px solid #171717; }
 .question-visual th { color: #171717; background: #d9ccff; }
+.variation-svg .variation-grid { stroke: #8fa9b5; stroke-width: 2; }
+.variation-svg .variation-x { fill: #52636b; }
+.variation-svg .variation-axis { fill: #8d55c9; }
 .variation-svg, .question-plot { border: 2px solid #171717; background: #fff; }
 .code-panel { border: 2px solid #171717; color: #171717; background: #f6f2e9; }
 .mini-bars { border: 2px solid #171717; background: #fff; }
