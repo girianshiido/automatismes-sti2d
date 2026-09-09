@@ -136,6 +136,7 @@
       .replace(/\bh\s*=\s*[−-]?\d+(?:[,.]\d+)?/g, formula => formula.replace(/\s/g, "\u00a0"))
       // Forme canonique d'une parabole : toute l'expression reste solidaire.
       .replace(/f′?\(x\)\s*=\s*[−-]?\([^()]+\)[²³]\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
+      .replace(/u[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+\s*=\s*[−-]?\d+u[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))
       .replace(/\([−-]?\d+(?:[,.]\d+)?\s*;\s*−?\d+(?:[,.]\d+)?\)/g, point => point.replace(/\s/g, "\u00a0"))
       // Typographie française : les guillemets ne doivent jamais rester seuls.
       .replace(/«\s+/g, "«\u00a0")
