@@ -142,7 +142,8 @@
       .replace(/«\s+/g, "«\u00a0")
       .replace(/\s+»/g, "\u00a0»")
       // Les signes doubles français restent attachés à ce qui précède.
-      .replace(/\s+([:;!?])/g, "\u00a0$1");
+      .replace(/\s+([:;!?])/g, "\u00a0$1")
+      .replace(/\s+%/g, "\u00a0%");
     let cursor = 0;
     for (const match of source.matchAll(MATH_INLINE_PATTERN)) {
       appendDecoratedMath(fragment, source.slice(cursor, match.index));
