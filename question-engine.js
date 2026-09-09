@@ -457,7 +457,8 @@
     }
     const askReciprocal = rng() < 0.5;
     const target = askReciprocal ? variant.reciprocal : variant.contrapositive;
-    const { choices, answer } = makeChoices(target, [variant.reciprocal, variant.contrapositive, variant.other, `${variant.statement} et sa réciproque sont équivalentes.`], rng);
+    const statementWithoutFinalDot = variant.statement.replace(/[.]$/, "");
+    const { choices, answer } = makeChoices(target, [variant.reciprocal, variant.contrapositive, variant.other, `${statementWithoutFinalDot} et sa réciproque sont équivalentes.`], rng);
     return {
       kind: "statement-reciprocal",
       skill: "logic",
