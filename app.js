@@ -141,6 +141,8 @@
   function renderMathText(target, text) {
     const fragment = document.createDocumentFragment();
     const source = String(text)
+      // Un mot composé ou une inversion verbale ne doit pas être coupé au trait d'union.
+      .replace(/([A-Za-zÀ-ÿ])-(?=[A-Za-zÀ-ÿ])/g, "$1‑")
       .replace(/\bh\s*=\s*[−-]?\d+(?:[,.]\d+)?/g, formula => formula.replace(/\s/g, "\u00a0"))
       // Forme canonique d'une parabole : toute l'expression reste solidaire.
       .replace(/f′?\(x\)\s*=\s*[−-]?\([^()]+\)[²³]\s*[+−-]\s*\d+/g, formula => formula.replace(/\s/g, "\u00a0"))

@@ -1,5 +1,9 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import { readFile } from "node:fs/promises";
+
+const require = createRequire(import.meta.url);
+const engineAPI = require("../question-engine.js");
 
 const [html, app, engine, sheet, sheetStyles] = await Promise.all([
   readFile(new URL("../index.html", import.meta.url), "utf8"),
@@ -36,6 +40,7 @@ assert.match(app, /total sur \$\{questions\.length\}/, "le total doit utiliser l
 assert.match(app, /function renderMathText/, "le rendu mathématique doit être embarqué");
 assert.match(app, /function renderPromptText/, "les données et la question doivent pouvoir être séparées automatiquement");
 assert.equal((app.match(/renderPromptText\([^,]+, question\.prompt\)/g) || []).length, 2, "le saut avant la question doit fonctionner pendant la série et la correction");
+assert.ok(app.includes('.replace(/([A-Za-zÀ-ÿ])-(?=[A-Za-zÀ-ÿ])/g, "$1‑")'), "les mots reliés par un trait d'union doivent rester insécables");
 assert.match(app, /math-inline-fraction/, "les fractions doivent bénéficier du rendu mathématique amélioré");
 assert.match(app, /math-set-operator/, "les opérateurs d'ensembles doivent bénéficier d'un rendu mathématique lisible");
 assert.match(app, /\[A-Z\]\\s\*\=\\s\*\\\{\[\^\{\}\]\+\\\}/, "chaque nom d'ensemble doit rester attaché à son contenu");
@@ -46,13 +51,18 @@ assert.match(engine, /const coefficient = pick\(\[-1, 1\], rng\)/, "les parabole
 assert.match(engine, /value \/ maximum \* 86/, "les diagrammes en barres doivent réserver une marge aux étiquettes supérieures");
 assert.match(engine, /P_A\(B\).*P_Ā\(B\)/s, "les probabilités conditionnelles doivent utiliser des événements majuscules en indice");
 assert.doesNotMatch(engine, /P\(B\|A\)|P\(B\|Ā\)|Pₐ/, "les anciennes notations conditionnelles ne doivent plus apparaître");
+assert.match(engine, /formatNumber\(pA\)\} ; P_A\(B\)/, "les données probabilistes décimales doivent être séparées par un point-virgule");
 assert.match(engine, /const exactProbability = fraction\(numerator, denominator\)/, "les probabilités issues d'un tableau doivent être données exactement");
 assert.match(engine, /Donner une fraction irréductible/, "les probabilités issues d'un tableau doivent annoncer la forme attendue");
+assert.match(engine, /Dans un tableur, on teste la ligne \$\{row\}\. Quelle formule renvoie VRAI si la valeur de \$\{firstColumn\}\$\{row\}/, "les filtres de tableur doivent annoncer la cellule effectivement testée");
 assert.match(app, /choice\.length > 36 \? " long-answer"/, "les réponses longues doivent être adaptées dans les deux modes");
 assert.match(app, /subskill\.label \|\| subskill\.id\} · \$\{subskill\.id\}/, "la sélection personnelle doit distinguer chaque format");
 assert.match(await readFile(new URL("../styles.css", import.meta.url), "utf8"), /\.math-radical-sign::before/, "les styles de rendu mathématique doivent être présents");
 assert.match(app, /quickStart/, "le rituel par défaut doit pouvoir démarrer en un clic");
 assert.match(engine, /14100|KIND_GENERATORS|SUBSKILLS/, "le catalogue complet doit être embarqué");
+assert.match(engine, /Object\.keys\(KIND_GENERATORS\)\.filter\(id => COMMON_KIND_IDS\.has\(id\)\)/, "le catalogue visible doit exclure les générateurs de spécialité");
+assert.ok(engineAPI.SUBSKILLS.every(subskill => !String(subskill.origin).startsWith("Spécialité")), "aucun contenu de spécialité ne doit être exposé dans l'exerciseur");
+assert.ok(!engineAPI.SUBSKILLS.some(subskill => subskill.id === "euler-step"), "la méthode d'Euler ne doit pas apparaître dans l'exerciseur commun");
 assert.match(html, /fiche\.html/, "la fiche élève doit être accessible depuis l'exerciseur");
 assert.equal((sheet.match(/class="session"/g) || []).length, 8, "la fiche doit proposer huit séances");
 assert.doesNotMatch(sheet, /Nom\s*:|Prénom\s*:/, "la fiche collée au cahier ne doit pas réserver de zone nominative");

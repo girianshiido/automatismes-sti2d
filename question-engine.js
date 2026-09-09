@@ -665,7 +665,7 @@
       choices, answer,
       explanation: Math.abs(total) < 1e-9
         ? `Les coefficients se multiplient : ${formatNumber(1 + r1 / 100)} × ${formatNumber(1 + r2 / 100)} = 1. La valeur finale est égale à la valeur initiale : il n'y a pas d'évolution.`
-        : `Les coefficients se multiplient : ${formatNumber(1 + r1 / 100)} × ${formatNumber(1 + r2 / 100)} = ${formatNumber(1 + total / 100, 4)}, soit ${exactToTenth ? "" : "environ "}${good}.`
+        : `Les coefficients se multiplient : ${formatNumber(1 + r1 / 100)} × ${formatNumber(1 + r2 / 100)} = ${formatNumber(1 + total / 100, 4)} ; soit ${exactToTenth ? "" : "environ "}${good}.`
     };
   }
 
@@ -701,7 +701,7 @@
         ? `Quel taux permet d'annuler exactement une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} % ?`
         : `Au dixième de pourcent près, quel taux permet de compenser une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} % ?`,
       choices, answer,
-      explanation: `Le coefficient réciproque est 1 : ${formatNumber(coefficient)} ${exactToTenth ? "=" : "≈"} ${formatNumber(1 / coefficient, 4)}, soit ${exactToTenth ? "un taux de" : "environ"} ${good}.`
+      explanation: `Le coefficient réciproque est 1 : ${formatNumber(coefficient)} ${exactToTenth ? "=" : "≈"} ${formatNumber(1 / coefficient, 4)} ; soit ${exactToTenth ? "un taux de" : "environ"} ${good}.`
     };
   }
 
@@ -1493,7 +1493,7 @@
     return {
       kind: "total-probability",
       skill: "probability",
-      prompt: `P(A) = ${formatNumber(pA)}, P_A(B) = ${formatNumber(pGivenA)} et P_Ā(B) = ${formatNumber(pGivenNotA)}. Calculer P(B).`,
+      prompt: `P(A) = ${formatNumber(pA)} ; P_A(B) = ${formatNumber(pGivenA)} et P_Ā(B) = ${formatNumber(pGivenNotA)}. Calculer P(B).`,
       choices, answer,
       explanation: `P(B) = P(A)P_A(B) + P(Ā)P_Ā(B) = ${formatNumber(pA)} × ${formatNumber(pGivenA)} + ${formatNumber(1 - pA)} × ${formatNumber(pGivenNotA)} = ${formatNumber(good, 2)}.`
     };
@@ -1810,8 +1810,8 @@
       const filterMode = randInt(0, 2, rng);
       if (filterMode === 0) {
         good = `=${firstColumn}${row}>=${threshold}`;
-        prompt = `Quelle formule, saisie sur la ligne ${row}, vérifie que la valeur de la cellule ${firstColumn}${row} est supérieure ou égale à ${threshold} ?`;
-        explanation = `Le critère « supérieure ou égale à ${threshold} » s'écrit >= ${threshold} : ${good}.`;
+        prompt = `Dans un tableur, on teste la ligne ${row}. Quelle formule renvoie VRAI si la valeur de ${firstColumn}${row} est supérieure ou égale à ${threshold} ?`;
+        explanation = `Sur la ligne ${row}, le critère « supérieure ou égale à ${threshold} » s'écrit >= ${threshold} : ${good}. Recopiée vers le bas, la référence de ligne s'adapte.`;
         distractors = [
           `=${firstColumn}${row}>${threshold}`,
           `=${firstColumn}${row}<=${threshold}`,
@@ -1819,8 +1819,8 @@
         ];
       } else if (filterMode === 1) {
         good = `=${firstColumn}${row}<${threshold}`;
-        prompt = `Quelle formule, saisie sur la ligne ${row}, vérifie que la valeur de la cellule ${firstColumn}${row} est strictement inférieure à ${threshold} ?`;
-        explanation = `Le critère « strictement inférieure à ${threshold} » s'écrit < ${threshold} : ${good}.`;
+        prompt = `Dans un tableur, on teste la ligne ${row}. Quelle formule renvoie VRAI si la valeur de ${firstColumn}${row} est strictement inférieure à ${threshold} ?`;
+        explanation = `Sur la ligne ${row}, le critère « strictement inférieure à ${threshold} » s'écrit < ${threshold} : ${good}. Recopiée vers le bas, la référence de ligne s'adapte.`;
         distractors = [
           `=${firstColumn}${row}<=${threshold}`,
           `=${firstColumn}${row}>=${threshold}`,
@@ -1829,8 +1829,8 @@
       } else {
         const upper = threshold + randInt(5, 20, rng);
         good = `=ET(${firstColumn}${row}>=${threshold};${firstColumn}${row}<=${upper})`;
-        prompt = `Quelle formule, saisie sur la ligne ${row}, vérifie que la valeur de la cellule ${firstColumn}${row} est comprise entre ${threshold} et ${upper}, bornes incluses ?`;
-        explanation = `La valeur doit vérifier simultanément les deux bornes, d'où la fonction ET : ${good}.`;
+        prompt = `Dans un tableur, on teste la ligne ${row}. Quelle formule renvoie VRAI si la valeur de ${firstColumn}${row} est comprise entre ${threshold} et ${upper}, bornes incluses ?`;
+        explanation = `Sur la ligne ${row}, la valeur doit vérifier simultanément les deux bornes, d'où la fonction ET : ${good}. Recopiée vers le bas, la référence de ligne s'adapte.`;
         distractors = [
           `=OU(${firstColumn}${row}>=${threshold};${firstColumn}${row}<=${upper})`,
           `=ET(${firstColumn}${row}<=${threshold};${firstColumn}${row}>=${upper})`,
@@ -2563,7 +2563,7 @@
     return {
       kind: "euler-step",
       skill: "advancedAnalysis",
-      prompt: `Pour y′ = ${expression}, on connaît y(${x0}) = ${y0}. Avec un pas h = ${formatNumber(step)}, quelle valeur la méthode d'Euler donne-t-elle au point suivant ?`,
+      prompt: `Pour y′ = ${expression}, on connaît y(${x0}) = ${y0}. Avec un pas h = ${formatNumber(step)} ; quelle valeur la méthode d'Euler donne-t-elle au point suivant ?`,
       choices, answer,
       explanation: `y(t₀ + h) ≈ y(t₀) + h × f(t₀) = ${y0} + ${formatNumber(step)} × ${formatNumber(slope, 2)} = ${good}.`
     };
@@ -2735,7 +2735,13 @@
     });
   });
 
-  const SUBSKILLS = Object.keys(KIND_GENERATORS).map(id => {
+  const COMMON_KIND_IDS = new Set(
+    PROGRAMME_2026.flatMap(section => section.capabilities.flatMap(capability => capability.kinds))
+  );
+
+  // L'exerciseur n'expose que le programme commun de première technologique.
+  // Les générateurs issus de la spécialité STI2D restent hors des séries et des liens partagés.
+  const SUBSKILLS = Object.keys(KIND_GENERATORS).filter(id => COMMON_KIND_IDS.has(id)).map(id => {
     return {
       id,
       skill: KIND_SKILLS[id],
