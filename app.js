@@ -52,7 +52,7 @@
       // Safari peut couper entre le caractère de base et son exposant :
       // on les relie explicitement par un espace insécable (visuellement nul).
       if (superscript && target.lastChild?.nodeType === Node.TEXT_NODE && /[A-Za-z0-9)]$/.test(target.lastChild.textContent)) {
-        target.lastChild.textContent += "\u00a0";
+        target.lastChild.textContent += "\uFEFF";
       }
       const modifier = document.createElement("span");
       modifier.className = subscript ? "math-sub" : "math-sup";
