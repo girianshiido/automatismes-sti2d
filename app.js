@@ -132,7 +132,11 @@
 
   function renderMathText(target, text) {
     const fragment = document.createDocumentFragment();
-    const source = String(text).replace(/\bh\s*=\s*[−-]?\d+(?:[,.]\d+)?/g, formula => formula.replace(/\s/g, "\u00a0"));
+    const source = String(text)
+      .replace(/\bh\s*=\s*[−-]?\d+(?:[,.]\d+)?/g, formula => formula.replace(/\s/g, "\u00a0"))
+      // Typographie française : les guillemets ne doivent jamais rester seuls.
+      .replace(/«\s+/g, "«\u00a0")
+      .replace(/\s+»/g, "\u00a0»");
     let cursor = 0;
     for (const match of source.matchAll(MATH_INLINE_PATTERN)) {
       appendDecoratedMath(fragment, source.slice(cursor, match.index));
