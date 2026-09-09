@@ -21,7 +21,7 @@ assert.match(app, /showReviewItem/, "la correction doit être projetée question
 assert.match(app, /review-visual/, "les graphiques et programmes doivent être répétés pendant la correction");
 assert.match(html, /QCM projeté/, "le QCM projeté doit être proposé");
 assert.match(html, /QCM individuel/, "le QCM individuel doit être proposé");
-assert.equal((html.match(/name="answer-mode"/g) || []).length, 2, "exactement deux modes doivent être proposés");
+assert.equal((html.match(/name="answer-mode"/g) || []).length, 3, "les trois modes de réponse doivent être proposés");
 assert.match(html, /value="projection" checked/, "le QCM projeté doit être le mode par défaut");
 assert.doesNotMatch(html + app + (await readFile(new URL("../styles.css", import.meta.url), "utf8")), /value="free"|free-answer|Réponse libre/, "le mode réponse libre ne doit pas réapparaître");
 assert.match(app, /ANSWER_LETTERS = \["A", "B", "C", "D"\]/, "les choix doivent être repérés par les lettres A à D");
