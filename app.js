@@ -43,7 +43,7 @@
   function appendMathCharacters(target, text) {
     String(text)
       .replace(/(^|[\s=(;,])-(?=[0-9xyzuiρπ])/gi, "$1−")
-      .replace(/(?<=[0-9A-Za-z)²³])\s+([=+−×÷<>≤≥])\s+(?=[0-9A-Za-z(−-])/g, "\u00a0$1\u00a0")
+      .replace(/(?<=[0-9A-Za-z)²³])\s+([=+−×<>≤≥])\s+(?=[0-9A-Za-z(−-])/g, "\u00a0$1\u00a0")
       .split(/(_[A-ZĀ]|[₀₁₂₃₄₅₆₇₈₉₊₋ₙ]+|[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)/g).forEach(fragment => {
       if (!fragment) return;
       const namedSubscript = /^_[A-ZĀ]$/.test(fragment);

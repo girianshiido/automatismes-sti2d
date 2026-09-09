@@ -538,7 +538,7 @@
       skill: "proportions",
       prompt: `${baseCount} ${baseCount > 1 ? item.plural : item.singular} ${baseCount > 1 ? item.pluralVerb : item.verb} ${baseValue} ${item.unit}. Combien de ${item.unit} ${targetCount} ${item.plural} ${item.pluralVerb}-${item.pronoun} dans la même situation ?`,
       choices: choices.map(value => `${value} ${item.unit}`), answer,
-      explanation: `Une unité fournit ${baseValue} ÷ ${baseCount} = ${perItem} ${item.unit}. Donc ${targetCount} unités fournissent ${targetCount} × ${perItem} = ${targetValue} ${item.unit}.`
+      explanation: `Une unité fournit ${baseValue} : ${baseCount} = ${perItem} ${item.unit}. Donc ${targetCount} unités fournissent ${targetCount} × ${perItem} = ${targetValue} ${item.unit}.`
     };
   }
 
@@ -558,7 +558,7 @@
       skill: "proportions",
       prompt: `Une ligne de production fabrique ${larger} pièces et une cellule robotisée en fabrique ${smaller}. Quel est le rapport ${askLargerFirst ? `${larger}/${smaller}` : `${smaller}/${larger}`} des deux cadences ?`,
       choices, answer,
-      explanation: `${askLargerFirst ? larger : smaller} ÷ ${askLargerFirst ? smaller : larger} = ${good}. Ce rapport compare les deux quantités de manière multiplicative.`
+      explanation: `${askLargerFirst ? larger : smaller} : ${askLargerFirst ? smaller : larger} = ${good}. Ce rapport compare les deux quantités de manière multiplicative.`
     };
   }
 
@@ -642,7 +642,7 @@
       skill: "evolutions",
       prompt: `Une production passe de ${start} à ${formatNumber(end)} unités. Quel est son taux d'évolution ?`,
       choices, answer,
-      explanation: `(${formatNumber(end)} − ${start}) ÷ ${start} = ${formatNumber(rate / 100)} ; le taux est donc ${good}.`
+      explanation: `(${formatNumber(end)} − ${start}) : ${start} = ${formatNumber(rate / 100)} ; le taux est donc ${good}.`
     };
   }
 
@@ -678,7 +678,7 @@
       skill: "evolutions",
       prompt: `Après une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} %, une valeur vaut ${formatNumber(final)}. Quelle était sa valeur initiale ?`,
       choices, answer,
-      explanation: `La valeur finale est égale à la valeur initiale multipliée par ${formatNumber(1 + rate / 100)}. Donc ${formatNumber(final)} ÷ ${formatNumber(1 + rate / 100)} = ${initial}.`
+      explanation: `La valeur finale est égale à la valeur initiale multipliée par ${formatNumber(1 + rate / 100)}. Donc ${formatNumber(final)} : ${formatNumber(1 + rate / 100)} = ${initial}.`
     };
   }
 
@@ -697,7 +697,7 @@
       skill: "evolutions",
       prompt: `Quel taux permet d'annuler exactement une évolution de ${rate >= 0 ? "+" : "−"}${Math.abs(rate)} % ?`,
       choices, answer,
-      explanation: `Le coefficient réciproque est 1 ÷ ${formatNumber(coefficient)} = ${formatNumber(1 / coefficient, 3)}, soit un taux de ${good}.`
+      explanation: `Le coefficient réciproque est 1 : ${formatNumber(coefficient)} = ${formatNumber(1 / coefficient, 3)}, soit un taux de ${good}.`
     };
   }
 
@@ -898,7 +898,7 @@
       skill: "functions",
       prompt: `Une droite passe par A(${x1} ; ${y1}) et B(${x2} ; ${y2}). Quel est son coefficient directeur ?`,
       choices, answer,
-      explanation: `m = (${differenceExpression(y2, y1)}) ÷ (${differenceExpression(x2, x1)}) = ${formatNumber(slope)}.`
+      explanation: `m = (${differenceExpression(y2, y1)}) : (${differenceExpression(x2, x1)}) = ${formatNumber(slope)}.`
     };
   }
 
@@ -1365,7 +1365,7 @@
     const sum = values.reduce((a, b) => a + b, 0);
     const mean = sum / values.length;
     const { choices, answer } = makeChoices(formatNumber(mean), [formatNumber(sum / 5), formatNumber(mean + 1), formatNumber(values.sort((a,b)=>a-b)[1])], rng);
-    return { kind: "series-mean", skill: "statistics", prompt: `Quelle est la moyenne de la série : ${values.join(" ; ")} ?`, choices, answer, explanation: `La somme vaut ${sum}. La moyenne est ${sum} ÷ 4 = ${formatNumber(mean)}.` };
+    return { kind: "series-mean", skill: "statistics", prompt: `Quelle est la moyenne de la série : ${values.join(" ; ")} ?`, choices, answer, explanation: `La somme vaut ${sum}. La moyenne est ${sum} : 4 = ${formatNumber(mean)}.` };
   }
 
   function histogramReading(rng) {
@@ -1465,7 +1465,7 @@
       prompt,
       choices, answer,
       visual: `<table aria-label="Tableau des pièces contrôlées"><tr><th></th><th>Conformes</th><th>Non conformes</th></tr><tr><th>Ligne A</th><td>${aYes}</td><td>${aNo}</td></tr><tr><th>Ligne B</th><td>${bYes}</td><td>${bNo}</td></tr></table>`,
-      explanation: `Parmi ${conditionDescription}, ${targetDescription} : ${numerator} ÷ ${denominator} ≈ ${formatNumber(percent, 1)} %.`
+      explanation: `Parmi ${conditionDescription}, ${targetDescription} : ${numerator} : ${denominator} ≈ ${formatNumber(percent, 1)} %.`
     };
   }
 
