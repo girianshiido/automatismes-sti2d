@@ -337,7 +337,7 @@
         letter.className = "answer-letter";
         letter.textContent = ANSWER_LETTERS[index];
         const text = document.createElement("span");
-        text.className = "answer-text";
+        text.className = `answer-text${choice.length > 54 ? " long-answer" : ""}`;
         renderMathText(text, choice);
         button.append(letter, text);
         button.addEventListener("click", () => {
@@ -349,7 +349,7 @@
     } else {
       question.choices.forEach((choice, index) => {
         const item = document.createElement("div");
-        item.className = "projected-answer answer-card";
+        item.className = `projected-answer answer-card${choice.length > 54 ? " long-answer" : ""}`;
         const letter = document.createElement("span");
         letter.className = "answer-letter";
         letter.textContent = ANSWER_LETTERS[index];
