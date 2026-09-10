@@ -2740,13 +2740,75 @@
     PROGRAMME_2026.flatMap(section => section.capabilities.flatMap(capability => capability.kinds))
   );
 
+  const KIND_LABELS = {
+    "direct-proportion": "Calculer une quantité par proportionnalité",
+    "ratio-comparison": "Calculer et interpréter le rapport de deux quantités",
+    "fraction-calculation": "Calculer et simplifier des fractions",
+    "operation-priority": "Calculer une expression avec des priorités opératoires",
+    "scientific-notation": "Écrire un nombre en notation scientifique",
+    "power-rule": "Appliquer les règles de calcul sur les puissances",
+    "percent-final": "Calculer une valeur finale après une évolution",
+    "percent-rate": "Calculer un taux d'évolution",
+    "successive-rates": "Calculer le taux global de deux évolutions successives",
+    "percent-initial": "Retrouver une valeur initiale avant une évolution",
+    "reciprocal-rate": "Calculer le taux d'évolution réciproque",
+    "metric-conversion": "Convertir des unités de longueur, de masse ou de capacité",
+    "duration-conversion": "Convertir des heures et des minutes",
+    "set-intersection": "Déterminer une réunion, une intersection ou son cardinal",
+    "logical-condition": "Interpréter des conditions avec « ET » ou « OU »",
+    "statement-reciprocal": "Déterminer la réciproque ou la contraposée d'une proposition",
+    counterexample: "Trouver un contre-exemple à une proposition",
+    "zero-product": "Résoudre une équation-produit",
+    "develop-expression": "Développer et réduire une expression",
+    "factor-expression": "Factoriser une expression par un facteur donné",
+    "linear-sign": "Étudier le signe d'une expression affine",
+    "factorized-sign": "Étudier le signe d'un produit de deux facteurs",
+    "line-slope": "Calculer le coefficient directeur d'une droite",
+    "affine-image": "Calculer l'image d'un nombre par une fonction affine",
+    "graph-line-equation": "Reconnaître l'équation d'une droite représentée",
+    "graph-equation-reading": "Résoudre graphiquement une équation",
+    "graph-sign-reading": "Lire graphiquement le signe d'une fonction",
+    "quadratic-sign-reading": "Résoudre graphiquement une inéquation avec une parabole",
+    "quadratic-vertex": "Déterminer le sommet d'une parabole donnée par sa forme canonique",
+    "quadratic-roots": "Déterminer les racines d'un polynôme donné sous forme factorisée",
+    "variation-reading": "Lire les variations d'une fonction dans un tableau",
+    "arithmetic-sequence": "Compléter une suite arithmétique",
+    "geometric-sequence": "Compléter une suite géométrique",
+    "explicit-sequence-term": "Calculer un terme d'une suite définie explicitement",
+    "recurrent-sequence-term": "Calculer un terme d'une suite définie par récurrence",
+    "sequence-nature": "Reconnaître une suite arithmétique ou géométrique",
+    "sequence-variation": "Déterminer le sens de variation d'une suite",
+    "polynomial-derivative": "Dériver un polynôme du second degré",
+    "cubic-derivative": "Dériver un polynôme du troisième degré",
+    "tangent-equation": "Déterminer l'équation d'une tangente",
+    "derivative-variation": "Déduire les variations d'une fonction du signe de sa dérivée",
+    "series-mean": "Calculer la moyenne d'une série statistique",
+    "histogram-reading": "Lire un effectif total sur un diagramme en barres",
+    "bivariate-mean-point": "Calculer le point moyen d'un nuage de points",
+    "affine-adjustment": "Faire une estimation avec un ajustement affine",
+    "conditional-table": "Calculer une probabilité conditionnelle dans un tableau",
+    "independent-events": "Calculer une intersection d'événements indépendants",
+    "total-probability": "Appliquer la formule des probabilités totales",
+    "bernoulli-repetition": "Calculer une probabilité lors de répétitions de Bernoulli",
+    "random-expectation": "Calculer l'espérance d'une variable aléatoire",
+    "random-event": "Calculer la probabilité d'un événement lié à une variable aléatoire",
+    "python-accumulator": "Déterminer la valeur finale d'un compteur ou accumulateur Python",
+    "python-list": "Déterminer la liste produite par un programme Python",
+    "python-function": "Déterminer la valeur renvoyée par une fonction Python",
+    "spreadsheet-formula": "Choisir une formule de calcul dans un tableur",
+    "data-filter": "Compter les données conservées par un filtre",
+    "python-bernoulli": "Écrire une condition Python simulant une épreuve de Bernoulli",
+    "raw-data-cross-table": "Compléter un tableau croisé à partir de données brutes"
+  };
+
   // L'exerciseur n'expose que le programme commun de première technologique.
   // Les générateurs issus de la spécialité STI2D restent hors des séries et des liens partagés.
   const SUBSKILLS = Object.keys(KIND_GENERATORS).filter(id => COMMON_KIND_IDS.has(id)).map(id => {
     return {
       id,
       skill: KIND_SKILLS[id],
-      ...CAPABILITY_BY_KIND.get(id)
+      ...CAPABILITY_BY_KIND.get(id),
+      label: KIND_LABELS[id] || CAPABILITY_BY_KIND.get(id)?.label || "Exercice"
     };
   });
 

@@ -8,26 +8,20 @@ header p { margin: 0 0 1mm; color: #5a47cf; font-size: 8pt; font-weight: 800; le
 h1 { margin: 0; font-size: 19pt; line-height: 1; }
 .instructions { margin: 3mm 0; padding: 2.5mm 3mm; border: 1.5px solid #111; border-radius: 3mm; background: #fff1a8; font-size: 8pt; line-height: 1.25; }
 .sessions { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
-.long-sheet .session:nth-child(n+5) { display: none; }
 .session { break-inside: avoid; border: 2px solid #111; border-radius: 3mm; overflow: hidden; }
-.session:nth-child(1) .session-head { background: #9cecf0; }
-.session:nth-child(2) .session-head { background: #ffc4da; }
-.session:nth-child(3) .session-head { background: #cbb8ff; }
-.session:nth-child(4) .session-head { background: #bcebb4; }
+.session:nth-child(4n+1) .session-head { background: #9cecf0; }
+.session:nth-child(4n+2) .session-head { background: #ffc4da; }
+.session:nth-child(4n+3) .session-head { background: #cbb8ff; }
+.session:nth-child(4n) .session-head { background: #bcebb4; }
 .session-head { display: grid; grid-template-columns: auto 1fr; gap: 1mm 2mm; align-items: center; padding: 1.8mm 2mm; border-bottom: 2px solid #111; }
 .session-head strong { font-size: 9pt; }
 .session-head span { justify-self: end; font-size: 6.3pt; }
 .session-head b { grid-column: 1 / -1; font-size: 7.5pt; }
 table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-th, td { height: 4.5mm; border-right: 1.25px solid #111; border-bottom: 1.25px solid #111; }
-thead th { height: 5.5mm; padding: .6mm; background: #f1eee7; font-size: 6.2pt; white-space: nowrap; }
-thead th:first-child, tbody th { width: 17%; }
-thead th:nth-child(2) { width: 19%; }
-thead th:nth-child(3) { width: 49%; }
-thead th:last-child, .point { width: 15%; border-right: 0; }
-tbody th { font-size: 7pt; }
-tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-.point { font-size: 10pt; text-align: center; }
+th, td { height: 7mm; border-right: 1.25px solid #111; text-align: center; }
+th:last-child, td:last-child { border-right: 0; }
+thead th { height: 4.5mm; padding: .4mm; border-bottom: 1.25px solid #111; background: #f1eee7; font-size: 6.5pt; }
+tbody td { background: #fff; }
 footer { display: none; }
 footer div { height: 7mm; border-bottom: 1.5px solid #111; }
 .print-button { display: block; margin: 10mm auto 0; padding: 3mm 6mm; border: 2px solid #111; border-radius: 3mm; color: #111; background: #9cecf0; font: 800 11pt Arial, sans-serif; cursor: pointer; box-shadow: 3px 3px 0 #111; }

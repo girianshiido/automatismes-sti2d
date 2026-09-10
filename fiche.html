@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Ma grille d’automatismes — fiche élève</title>
-    <link rel="stylesheet" href="fiche.css?v=1">
+    <link rel="stylesheet" href="fiche.css?v=2">
   </head>
   <body>
     <main class="page">
@@ -15,60 +15,38 @@
 
       <p class="instructions">Pour chaque séance : écris la lettre A, B, C ou D choisie, corrige avec une autre couleur, puis compte un point par réponse juste.</p>
 
-      <section class="sessions">
+      <section class="sessions"></section>
+
+      <template id="session-template">
         <article class="session">
-          <div class="session-head"><strong>Séance 1</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
+          <div class="session-head"><strong></strong><span>Date : ____ / ____ / ______</span><b></b></div>
+          <table aria-label="Réponses de la séance"><thead><tr></tr></thead><tbody><tr></tr></tbody></table>
         </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 2</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 3</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 4</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 5</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 6</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 7</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-        <article class="session">
-          <div class="session-head"><strong>Séance 8</strong><span>Date : ____ / ____ / ______</span><b>Score : ____ / 6</b></div>
-          <table><thead><tr><th>Question</th><th>Ma réponse</th><th>Correction</th><th>Point</th></tr></thead><tbody></tbody></table>
-        </article>
-      </section>
+      </template>
 
       <footer><span>Mon objectif pour la prochaine séance :</span><div></div></footer>
       <button class="print-button" type="button" onclick="window.print()">Imprimer cette fiche</button>
     </main>
     <script>
       const count = Math.min(12, Math.max(1, Number(new URLSearchParams(location.search).get("n")) || 6));
-      const targetSessions = count <= 6 ? 12 : count <= 8 ? 9 : 6;
+      const targetSessions = ({ 4: 12, 6: 8, 8: 6, 10: 4, 12: 4 })[count] || 8;
       const sessions = document.querySelector(".sessions");
-      while (sessions.children.length < targetSessions) sessions.append(sessions.children[0].cloneNode(true));
-      [...sessions.children].forEach((session, sessionIndex) => {
+      const template = document.querySelector("#session-template");
+      for (let sessionIndex = 0; sessionIndex < targetSessions; sessionIndex += 1) {
+        const session = template.content.firstElementChild.cloneNode(true);
         session.querySelector("strong").textContent = `Séance ${sessionIndex + 1}`;
-      });
-        document.querySelectorAll(".session-head b").forEach(score => { score.textContent = `Score : ____ / ${count}`; });
-      document.querySelectorAll("tbody").forEach(body => {
+        session.querySelector("b").textContent = `Score : ____ / ${count}`;
+        const questionRow = session.querySelector("thead tr");
+        const answerRow = session.querySelector("tbody tr");
         for (let index = 1; index <= count; index += 1) {
-          const row = document.createElement("tr");
-          row.innerHTML = `<th>${index}</th><td></td><td></td><td class="point">□</td>`;
-          body.append(row);
+          const question = document.createElement("th");
+          question.scope = "col";
+          question.textContent = index;
+          questionRow.append(question);
+          answerRow.append(document.createElement("td"));
         }
-      });
+        sessions.append(session);
+      }
     </script>
   </body>
 </html>

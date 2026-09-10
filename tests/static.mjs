@@ -71,11 +71,15 @@ assert.match(engine, /14100|KIND_GENERATORS|SUBSKILLS/, "le catalogue complet do
 assert.match(engine, /Object\.keys\(KIND_GENERATORS\)\.filter\(id => COMMON_KIND_IDS\.has\(id\)\)/, "le catalogue visible doit exclure les générateurs de spécialité");
 assert.ok(engineAPI.SUBSKILLS.every(subskill => !String(subskill.origin).startsWith("Spécialité")), "aucun contenu de spécialité ne doit être exposé dans l'exerciseur");
 assert.ok(!engineAPI.SUBSKILLS.some(subskill => subskill.id === "euler-step"), "la méthode d'Euler ne doit pas apparaître dans l'exerciseur commun");
+assert.ok(engineAPI.SUBSKILLS.every(subskill => subskill.label && subskill.label !== subskill.id), "chaque format doit avoir un intitulé pédagogique français");
+assert.equal(new Set(engineAPI.SUBSKILLS.map(subskill => subskill.label)).size, engineAPI.SUBSKILLS.length, "chaque format doit avoir un intitulé distinct dans la sélection précise");
 assert.match(html, /fiche\.html/, "la fiche élève doit être accessible depuis l'exerciseur");
-assert.equal((sheet.match(/class="session"/g) || []).length, 8, "la fiche doit proposer huit séances");
+assert.match(sheet, /\{ 4: 12, 6: 8, 8: 6, 10: 4, 12: 4 \}/, "la fiche doit limiter chaque format au nombre de grilles prévu sur une page A4");
+assert.equal((sheet.match(/class="session"/g) || []).length, 1, "les séances doivent être créées depuis un unique modèle");
+assert.doesNotMatch(sheet, /Ma réponse|Correction<\/th>|class="point"/, "chaque question ne doit réserver qu'une petite case pour la lettre");
 assert.doesNotMatch(sheet, /Nom\s*:|Prénom\s*:/, "la fiche collée au cahier ne doit pas réserver de zone nominative");
 assert.match(sheet, /Date :/, "chaque grille doit permettre d'inscrire la date");
 assert.match(sheet, /lettre A, B, C ou D/, "la fiche doit indiquer que les élèves reportent une lettre");
-assert.match(sheet, /Score : ____ \/ 6/, "chaque grille doit permettre de compter les points");
+assert.match(sheet, /Score : ____ \/ \$\{count\}/, "chaque grille doit permettre de compter les points");
 assert.match(sheetStyles, /@page[^]*A4 portrait/, "la fiche doit être préparée pour une impression A4");
 console.log("Exerciseur autonome : structure et confidentialité validées.");
