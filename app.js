@@ -14,13 +14,14 @@
     mixed: CORE_SKILLS,
     calculation: ["proportions", "numeric", "evolutions", "units"],
     algebra: ["algebra", "functions", "sequences", "derivatives"],
-    data: ["statistics", "probability"]
+    data: ["statistics", "probability"],
+    "logic-algorithmics": ["logic", "algorithmics"]
   };
 
   const dom = {
     setup: $("#setup-screen"), series: $("#series-screen"), review: $("#review-screen"),
     presetList: $("#preset-list"), skillPicker: $("#skill-picker"), skillList: $("#skill-list"), toggleAllSkills: $("#toggle-all-skills"), sheetLink: $("#sheet-link"),
-    count: $("#question-count"), duration: $("#question-duration"), quickStart: $("#quick-start"), start: $("#start-series"), copyLink: $("#copy-series-link"),
+    count: $("#question-count"), duration: $("#question-duration"), start: $("#start-series"), copyLink: $("#copy-series-link"),
     seriesProgress: $("#series-progress"), progressBar: $("#progress-bar"), pause: $("#pause-series"), quit: $("#quit-series"), next: $("#next-question"),
     questionSkill: $("#question-skill"), timer: $("#timer"), timerValue: $("#timer-value"), visual: $("#question-visual"), questionText: $("#question-text"), answerZone: $("#answer-zone"),
     reviewTitle: $("#review-title"), reviewSummary: $("#review-summary"), scoreCard: $("#score-card"), scoreValue: $("#score-value"), reviewList: $("#review-list"), reviewNav: $("#review-nav"), reviewProgress: $("#review-progress"), previousCorrection: $("#previous-correction"), nextCorrection: $("#next-correction"), projectionSummary: $("#projection-summary"), projectionSummaryList: $("#projection-summary-list"), backToCorrections: $("#back-to-corrections"), restart: $("#restart-series"), newSeries: $("#new-series"),
@@ -230,7 +231,7 @@
         input.value = subskill.id;
         input.dataset.skill = skill;
         input.checked = true;
-        label.append(input, document.createTextNode(`${subskill.label || subskill.id} · ${subskill.id}`));
+        label.append(input, document.createTextNode(subskill.label || "Exercice"));
         group.append(label);
       });
       dom.skillList.append(group);
@@ -645,13 +646,6 @@
     dom.toggleAllSkills.textContent = check ? "Tout désélectionner" : "Tout sélectionner";
   });
   dom.start.addEventListener("click", () => startSeries());
-  dom.quickStart.addEventListener("click", () => {
-    selectPreset("mixed");
-    dom.count.value = "6";
-    dom.duration.value = "30";
-    document.querySelector('input[name="answer-mode"][value="projection"]').checked = true;
-    startSeries();
-  });
   dom.copyLink.addEventListener("click", copySeriesLink);
   dom.next.addEventListener("click", () => nextQuestion());
   dom.quit.addEventListener("click", () => { cancelAnimationFrame(timerFrame); showScreen("setup"); });

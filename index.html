@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#fffaf0">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Automatismes STI2D</title>
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
   </head>
   <body>
     <div class="ambient ambient-a"></div>
@@ -19,14 +19,9 @@
 
     <main class="shell">
       <section id="setup-screen" class="screen setup-screen">
-        <div class="hero">
-          <p class="eyebrow">Rituel de classe</p>
-          <h1>Les automatismes, visibles par toute la classe.</h1>
-          <p>Prépare une courte série, projette les questions une par une, puis laisse les élèves se corriger et compter leurs points.</p>
-          <div class="quick-launch">
-            <button id="quick-start" class="quick-button" type="button"><span>Démarrer maintenant</span><strong>6 questions · 30 secondes · réponses sur fiche</strong></button>
-            <small>Environ 3 minutes de questions, puis correction collective.</small>
-          </div>
+        <div class="setup-intro">
+          <h1 class="visually-hidden">Préparer une série d'automatismes</h1>
+          <p><span>Rituel de classe</span>Compose une courte série à projeter, puis laisse les élèves se corriger et compter leurs points.</p>
         </div>
 
         <div class="setup-grid">
@@ -34,9 +29,10 @@
             <div class="panel-title"><span>01</span><div><h2>Composition</h2><p>Choisis un ensemble prêt à l’emploi ou personnalise les notions.</p></div></div>
             <div id="preset-list" class="preset-list" role="radiogroup" aria-label="Type de série">
               <button type="button" class="preset active" data-preset="mixed" role="radio" aria-checked="true"><strong>Mélange général</strong><span>Automatismes variés de première</span></button>
-              <button type="button" class="preset" data-preset="calculation" role="radio" aria-checked="false"><strong>Calcul express</strong><span>Nombres, proportions, évolutions et unités</span></button>
-              <button type="button" class="preset" data-preset="algebra" role="radio" aria-checked="false"><strong>Algèbre et fonctions</strong><span>Expressions, équations, fonctions et dérivation</span></button>
+              <button type="button" class="preset" data-preset="calculation" role="radio" aria-checked="false"><strong>Calcul express</strong><span>Calcul numérique, proportions, évolutions et unités</span></button>
+              <button type="button" class="preset" data-preset="algebra" role="radio" aria-checked="false"><strong>Algèbre et fonctions</strong><span>Expressions, équations, fonctions, suites et dérivation</span></button>
               <button type="button" class="preset" data-preset="data" role="radio" aria-checked="false"><strong>Données et hasard</strong><span>Statistiques et probabilités</span></button>
+              <button type="button" class="preset" data-preset="logic-algorithmics" role="radio" aria-checked="false"><strong>Logique et algorithmique</strong><span>Raisonnement, tableur et Python</span></button>
               <button type="button" class="preset" data-preset="custom" role="radio" aria-checked="false"><strong>Sélection personnelle</strong><span>Coche librement les notions souhaitées</span></button>
             </div>
             <div id="skill-picker" class="skill-picker" hidden>
@@ -47,8 +43,10 @@
 
           <aside class="panel settings-panel">
             <div class="panel-title"><span>02</span><div><h2>Déroulement</h2><p>Les réglages peuvent être modifiés avant chaque série.</p></div></div>
-            <label class="field"><span>Nombre de questions</span><select id="question-count"><option>4</option><option selected>6</option><option>8</option><option>10</option><option>12</option></select></label>
-            <label class="field"><span>Temps par question</span><select id="question-duration"><option value="15">15 secondes</option><option value="20">20 secondes</option><option value="30" selected>30 secondes</option><option value="45">45 secondes</option><option value="60">1 minute</option><option value="0">Sans chronomètre</option></select></label>
+            <div class="settings-fields">
+              <label class="field"><span>Nombre de questions</span><select id="question-count"><option>4</option><option selected>6</option><option>8</option><option>10</option><option>12</option></select></label>
+              <label class="field"><span>Temps par question</span><select id="question-duration"><option value="15">15 secondes</option><option value="20">20 secondes</option><option value="30" selected>30 secondes</option><option value="45">45 secondes</option><option value="60">1 minute</option><option value="0">Sans chronomètre</option></select></label>
+            </div>
             <fieldset class="mode-field">
               <legend>Mode de réponse</legend>
               <label><input type="radio" name="answer-mode" value="projection" checked><span><b>QCM projeté</b><small>Les élèves recopient uniquement A, B, C ou D</small></span></label>
@@ -56,11 +54,10 @@
               <label><input type="radio" name="answer-mode" value="summary"><span><b>Correction express</b><small>Récapitulatif immédiat : question 1 → A, question 2 → C…</small></span></label>
             </fieldset>
             <div class="setup-actions">
-              <button id="start-series" class="primary-button" type="button">Lancer la série</button>
+              <button id="start-series" class="primary-button" type="button">Démarrer la série</button>
               <button id="copy-series-link" class="secondary-button" type="button">Copier un lien vers cette série</button>
               <a id="sheet-link" class="sheet-button" href="fiche.html" target="_blank" rel="noopener">Imprimer la fiche élève</a>
             </div>
-            <p class="private-note">Exerciseur autonome, utilisable indépendamment en classe.</p>
           </aside>
         </div>
       </section>
@@ -115,7 +112,7 @@
     </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <script src="question-engine.js?v=31"></script>
-    <script src="app.js?v=2"></script>
+    <script src="question-engine.js?v=32"></script>
+    <script src="app.js?v=3"></script>
   </body>
 </html>

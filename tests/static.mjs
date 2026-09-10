@@ -58,9 +58,15 @@ assert.match(engine, /const exactProbability = fraction\(numerator, denominator\
 assert.match(engine, /Donner une fraction irréductible/, "les probabilités issues d'un tableau doivent annoncer la forme attendue");
 assert.match(engine, /Dans un tableur, on teste la ligne \$\{row\}\. Quelle formule renvoie VRAI si la valeur de \$\{firstColumn\}\$\{row\}/, "les filtres de tableur doivent annoncer la cellule effectivement testée");
 assert.match(app, /choice\.length > 36 \? " long-answer"/, "les réponses longues doivent être adaptées dans les deux modes");
-assert.match(app, /subskill\.label \|\| subskill\.id\} · \$\{subskill\.id\}/, "la sélection personnelle doit distinguer chaque format");
+assert.match(app, /document\.createTextNode\(subskill\.label \|\| "Exercice"\)/, "la sélection personnelle doit afficher des intitulés pédagogiques");
+assert.doesNotMatch(app, /subskill\.label \|\| subskill\.id\} · \$\{subskill\.id\}/, "la sélection personnelle ne doit pas afficher les identifiants techniques anglais");
 assert.match(await readFile(new URL("../styles.css", import.meta.url), "utf8"), /\.math-radical-sign::before/, "les styles de rendu mathématique doivent être présents");
-assert.match(app, /quickStart/, "le rituel par défaut doit pouvoir démarrer en un clic");
+assert.doesNotMatch(html + app, /quick-start|quickStart/, "le bouton de démarrage rapide redondant doit être supprimé");
+assert.match(html, /id="start-series"[^>]*>Démarrer la série</, "l'action principale doit être immédiatement identifiable");
+assert.match(html, /Rituel de classe/, "le contexte d'usage doit rester visible sans occuper le titre principal");
+assert.match(app, /"logic-algorithmics": \["logic", "algorithmics"\]/, "un préréglage doit réunir logique et algorithmique");
+assert.match(html, /Calcul numérique, proportions, évolutions et unités/, "le préréglage de calcul doit employer le nom exact de la rubrique");
+assert.match(html, /fonctions, suites et dérivation/, "le préréglage algébrique doit annoncer les suites");
 assert.match(engine, /14100|KIND_GENERATORS|SUBSKILLS/, "le catalogue complet doit être embarqué");
 assert.match(engine, /Object\.keys\(KIND_GENERATORS\)\.filter\(id => COMMON_KIND_IDS\.has\(id\)\)/, "le catalogue visible doit exclure les générateurs de spécialité");
 assert.ok(engineAPI.SUBSKILLS.every(subskill => !String(subskill.origin).startsWith("Spécialité")), "aucun contenu de spécialité ne doit être exposé dans l'exerciseur");
